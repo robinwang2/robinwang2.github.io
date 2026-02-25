@@ -18,7 +18,7 @@
     "about": {
       "title": "About Me",
       "p1": "I'm currently pursuing a Bachelor of Science in Game Design and Development at the Rochester Institute of Technology (RIT), with an anticipated graduation in May 2027. My coursework includes Game Development Algorithms, Problem Solving, Interactive Media, 2D Animation, and Web Technology.",
-      "p2": "Along the way, I've earned the RIT Award (merit-based) and received an honorable mention in the China Thinks Big 2019-2020 competition for outstanding research projects. I'm seeking a co-op or internship opportunity for Summer 2025 where I can apply my skills in C# and game development.",
+      "p2": "Along the way, I've earned the RIT Award (merit-based). I'm seeking a co-op or internship opportunity for Summer 2026 where I can apply my skills in C# and game development.",
       "p3": "Outside of academics, I enjoy exploring new technologies and working on interactive media projects that challenge my problem-solving abilities and creativity."
     },
     "projects": {
@@ -35,7 +35,8 @@
       },
       "project7": {
         "type": "Team Project",
-        "description": "A tabletop naval combat game set in a historical maritime setting."
+        "description": "A tabletop naval combat game set in a historical maritime setting.",
+        "gddDownloadPath": "download/DesignDoc_Sailors.docx"
       },
       "project8": {
         "type": "Game Jam Project",
@@ -59,7 +60,7 @@
   "zh-Hans": {
     "meta": {
       "lang": "zh-Hans",
-      "title": "王三行 - 游戏开发与设计"
+      "title": "王三省 - 游戏开发与设计"
     },
     "nav": {
       "about": "关于我",
@@ -75,7 +76,7 @@
     "about": {
       "title": "关于我",
       "p1": "我目前在罗切斯特理工学院（RIT）攻读游戏设计与开发理学学士，预计 2027 年 5 月毕业。课程涵盖游戏开发算法、问题求解、互动媒体、二维动画与网页技术等方向。",
-      "p2": "在校期间我获得了 RIT 奖学金，并在 China Thinks Big 2019-2020 比赛中凭借研究项目获得荣誉提名。我正在寻找 2025 年夏季的实习或 Co-op 机会，以进一步应用 C# 与游戏开发能力。",
+      "p2": "在校期间我获得了 RIT 奖学金。我正在寻找 2026 年夏季的实习或 Co-op 机会，以进一步应用 C# 与游戏开发能力。",
       "p3": "课余时间我喜欢探索新技术，并通过互动媒体项目持续提升创造力与解决问题的能力。"
     },
     "projects": {
@@ -92,7 +93,8 @@
       },
       "project7": {
         "type": "团队项目",
-        "description": "一款以历史海战为题材的桌面战斗游戏。"
+        "description": "一款以历史海战为题材的桌面战斗游戏。",
+        "gddDownloadPath": "download/DesignDoc_Sailors_ZH.txt"
       },
       "project8": {
         "type": "Game Jam 项目",

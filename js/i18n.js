@@ -19,6 +19,12 @@
       }
     });
 
+    // Update dynamic download links
+    const sailorsLink = document.getElementById('sailors-gdd-link');
+    if (sailorsLink && selected.projects.project7.gddDownloadPath) {
+      sailorsLink.href = selected.projects.project7.gddDownloadPath;
+    }
+
     localStorage.setItem(STORAGE_KEY, selected.meta.lang);
   };
 
