@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magazine Layout</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .main-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        .feature-box {
+            background-color: orange;
+            padding: 15px;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/Main.jpg" alt="Buzz logo with spider jar" class="logo-image" style="width: 100%; height: auto;">
+            <div style="text-align: center;">
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="main-content-grid">
+            <section class="article" id="arachnophobia-cure">
+                <div class="article-content">
+                    <h2 style="font-weight: bold;">The Itsy Bitsy Tarantula</h2>
+                    <h3 style="color: red;">Arachnophobia cure: Do the crawl with a virtual spider</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lacinia, justo a tincidunt ullamcorper, augue sapien consequat odio, id gravida eros justo ut est. Suspendisse potenti. Etiam euismod felis vitae ligula vulputate, at dapibus ligula accumsan.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pretium metus nec urna vestibulum, nec ullamcorper justo volutpat.</p>
+                </div>
+            </section>
+
+            <section class="feature-box" id="perfect-breasts">
+                <h3>Perfect Breasts</h3>
+                <p>And wings and drumsticks. They can be yours with a little advice from those master basters at Butterball. Once again, the turkey experts will be manning the Butterball Turkey Talk-Line (800-323-4848) through December, serving up hints and tips for cooking the perfect bird. Can’t get through? Then jump on Butterball Turkey Online at www.butterball.com for tips, recipes and step-by-step carving instructions. Hot tip: Let it cool before you carve.</p>
+            </section>
+
+            <section class="sidebar" id="new-products">
+                <h3>New Products the World Can Do Without</h3>
+                <ul>
+                    <li>Talking barbecue spatula - Lorem ipsum dolor sit amet.</li>
+                    <li>The Bait Shuttle - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                    <li>The Cracker Whacker - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                </ul>
+            </section>
+        </div>
+
+        <section class="ad" id="pdas">
+            <h3>Keep Your Friends in Your Wallet</h3>
+            <figure>
+                <img src="images/pda.jpg" alt="Image of PDA device" class="ad-image">
+                <figcaption>PDAs are getting smaller and more powerful.</figcaption>
+            </figure>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam interdum tincidunt ex nec congue. Vestibulum consequat magna eu nisl fermentum, eget feugiat nulla bibendum.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; Verge Magazine, Winter 1997</p>
+    </footer>
+</body>
+</html>
