@@ -1,0 +1,116 @@
+{
+  "en": {
+    "meta": {
+      "lang": "en",
+      "title": "Sanxing Wang - Game Developer & Designer"
+    },
+    "nav": {
+      "about": "About",
+      "projects": "Projects",
+      "contact": "Contact",
+      "languageToggle": "中文"
+    },
+    "hero": {
+      "description": "I create interactive experiences that challenge and inspire. Currently studying Game Design and Development at RIT.",
+      "viewProjects": "View Projects",
+      "getInTouch": "Get in Touch"
+    },
+    "about": {
+      "title": "About Me",
+      "p1": "I'm currently pursuing a Bachelor of Science in Game Design and Development at the Rochester Institute of Technology (RIT), with an anticipated graduation in May 2027. My coursework includes Game Development Algorithms, Problem Solving, Interactive Media, 2D Animation, and Web Technology.",
+      "p2": "Along the way, I've earned the RIT Award (merit-based) and received an honorable mention in the China Thinks Big 2019-2020 competition for outstanding research projects. I'm seeking a co-op or internship opportunity for Summer 2025 where I can apply my skills in C# and game development.",
+      "p3": "Outside of academics, I enjoy exploring new technologies and working on interactive media projects that challenge my problem-solving abilities and creativity."
+    },
+    "projects": {
+      "title": "Featured Projects",
+      "download": "Download",
+      "project2": {
+        "type": "Academic Project",
+        "description": "An arcade-style multiplayer shooter game with bullet control and management."
+      },
+      "project5": {
+        "type": "Personal Project",
+        "description": "A mini game where players control a robot in RTS scheme, collect coins, and escape enemies.",
+        "cta": "Play Game"
+      },
+      "project7": {
+        "type": "Team Project",
+        "description": "A tabletop naval combat game set in a historical maritime setting."
+      },
+      "project8": {
+        "type": "Game Jam Project",
+        "description": "A fast-paced game created for the Scream Jam 2025 competition.",
+        "cta": "Play on itch.io"
+      },
+      "project9": {
+        "type": "Group Project",
+        "description": "Double Dresden is a point and click mystery solving puzzle game where you play as Private Investigator Harry Dresden, who jumps into the scene of a murder to track down the culprit, only to find that he’s being framed!"
+      }
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "description": "Interested in collaborating or learning more about my work?",
+      "sendEmail": "Send Email"
+    },
+    "footer": {
+      "copyright": "© 2025 Sanxing Wang. All rights reserved."
+    }
+  },
+  "zh-Hans": {
+    "meta": {
+      "lang": "zh-Hans",
+      "title": "王三行 - 游戏开发与设计"
+    },
+    "nav": {
+      "about": "关于我",
+      "projects": "项目",
+      "contact": "联系",
+      "languageToggle": "EN"
+    },
+    "hero": {
+      "description": "我专注于制作有挑战性、富有启发性的互动体验。目前在 RIT 学习游戏设计与开发。",
+      "viewProjects": "查看项目",
+      "getInTouch": "联系我"
+    },
+    "about": {
+      "title": "关于我",
+      "p1": "我目前在罗切斯特理工学院（RIT）攻读游戏设计与开发理学学士，预计 2027 年 5 月毕业。课程涵盖游戏开发算法、问题求解、互动媒体、二维动画与网页技术等方向。",
+      "p2": "在校期间我获得了 RIT 奖学金，并在 China Thinks Big 2019-2020 比赛中凭借研究项目获得荣誉提名。我正在寻找 2025 年夏季的实习或 Co-op 机会，以进一步应用 C# 与游戏开发能力。",
+      "p3": "课余时间我喜欢探索新技术，并通过互动媒体项目持续提升创造力与解决问题的能力。"
+    },
+    "projects": {
+      "title": "精选项目",
+      "download": "下载",
+      "project2": {
+        "type": "课程项目",
+        "description": "一款街机风格的多人射击游戏，专注于子弹控制与资源管理。"
+      },
+      "project5": {
+        "type": "个人项目",
+        "description": "玩家通过 RTS 操控机器人收集金币并躲避敌人的小游戏。",
+        "cta": "开始游戏"
+      },
+      "project7": {
+        "type": "团队项目",
+        "description": "一款以历史海战为题材的桌面战斗游戏。"
+      },
+      "project8": {
+        "type": "Game Jam 项目",
+        "description": "为 Scream Jam 2025 比赛制作的快节奏游戏。",
+        "cta": "在 itch.io 体验"
+      },
+      "project9": {
+        "type": "小组项目",
+        "description": "Double Dresden 是一款点击式解谜游戏。你将扮演私家侦探 Harry Dresden，在命案现场追查真凶，却发现自己被陷害。"
+      }
+    },
+    "contact": {
+      "title": "联系我",
+      "description": "如果你想合作，或想进一步了解我的项目，欢迎联系我。",
+      "sendEmail": "发送邮件"
+    },
+    "footer": {
+      "copyright": "© 2025 Sanxing Wang. 保留所有权利。"
+    }
+  }
+}
