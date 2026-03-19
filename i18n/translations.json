@@ -1,10 +1,11 @@
-{
+﻿{
   "en": {
     "meta": {
       "lang": "en",
       "title": "Sanxing Wang - Game Developer & Designer"
     },
     "nav": {
+      "logo": "<span class=\"red-cap\">S</span>anxing <span class=\"red-cap\">W</span>ang",
       "about": "About",
       "projects": "Projects",
       "contact": "Contact",
@@ -16,41 +17,36 @@
       "getInTouch": "Get in Touch"
     },
     "about": {
-      "title": "About Me",
-      "p1": "I'm currently pursuing a Bachelor of Science in Game Design and Development at the Rochester Institute of Technology (RIT), with an anticipated graduation in May 2027. My coursework includes Game Development Algorithms, Problem Solving, Interactive Media, 2D Animation, and Web Technology.",
-      "p2": "Along the way, I've earned the RIT Award (merit-based). I'm seeking a co-op or internship opportunity for Summer 2026 where I can apply my skills in C# and game development.",
-      "p3": "Outside of academics, I enjoy exploring new technologies and working on interactive media projects that challenge my problem-solving abilities and creativity."
+      "title": "About Me"
     },
     "projects": {
       "title": "Featured Projects",
-      "download": "Download",
+      "back": "← Back to Projects",
+      "skillsTitle": "technical skill:",
       "project2": {
-        "type": "Academic Project",
-        "description": "An arcade-style multiplayer shooter game with bullet control and management.",
-        "details": "This placeholder long-form project summary is designed to simulate the level of depth you may want on your portfolio when you are ready to share a full production breakdown. In a final version, this section can explain the original design goal, the core mechanic loop, and how your technical choices supported player experience. For example, you could describe how weapon behavior was prototyped, what balancing process you used for fire rate and movement speed, and how you structured multiplayer logic to keep matches responsive. You can also include what tools and workflows were used during development, such as version control habits, playtest cadence, and any debugging techniques that helped stabilize the build. Another useful addition is a reflection on outcomes: what succeeded, what was cut, and what you would redesign in a second iteration. Writing this at portfolio length helps reviewers understand both your execution and your decision-making process beyond screenshots."
+        "title": "Dualing Driver",
+        "description": "Dualing Driver is an arcade-style multiplayer shooter focused on fast pacing and bullet control. The project emphasizes responsive movement, combat readability, and map flow balancing in short matches.",
+        "skills": ["Unity (C#)", "Multiplayer gameplay balancing", "Combat feedback tuning", "Rapid prototyping"]
       },
       "project5": {
-        "type": "Personal Project",
-        "description": "A mini game where players control a robot in RTS scheme, collect coins, and escape enemies.",
-        "cta": "Play Game",
-        "details": "This placeholder narrative can be replaced with a complete design and implementation story that presents your role as both system designer and gameplay programmer. A detailed version might begin with the project intent: creating an approachable RTS-style control scheme for short sessions while preserving strategic tension. You can then explain the architecture of enemy spawning, resource collection, and win/lose conditions, including how those systems were tuned to create escalating pressure without feeling unfair. Consider adding notes about control readability, UI prompts, and player onboarding, especially if early testers struggled with unit selection or pathing. On the technical side, this is a strong place to discuss scripting patterns, state management, and any optimization work done for smoother updates. Finally, include a postmortem-style paragraph on lessons learned, such as scope control, iteration speed, and how your priorities shifted from feature expansion to polish once the core loop became stable."
+        "title": "Auto Robot",
+        "description": "Auto Robot is a small RTS-inspired survival game where players route a robot to collect coins, avoid threats, and optimize decisions under pressure.",
+        "skills": ["Gameplay scripting", "AI behavior setup", "State machine design", "UX onboarding iteration"]
       },
       "project7": {
-        "type": "Team Project",
-        "description": "A tabletop naval combat game set in a historical maritime setting.",
-        "gddDownloadPath": "download/DesignDoc_Sailors.docx",
-        "details": "This placeholder text represents where a full team-project case study can live, especially for projects that include historical research, collaborative design, and documentation-heavy workflows. In your final portfolio version, you can describe how the theme informed mechanics, how the team translated historical references into playable systems, and how responsibilities were divided across design, balancing, and presentation. A strong paragraph can cover the evolution of the ruleset: what was tested first, what caused friction, and which revisions improved pacing or strategic clarity. You might also outline how player feedback was collected, whether from classroom sessions or external groups, and how that feedback directly changed card values, turn structure, or victory conditions. Since this project includes downloadable documentation, this section can bridge the gap between raw design docs and concise recruiter-facing explanation. End with your personal contribution and one key insight about collaborative production that you would carry into future studio environments."
+        "title": "There Are No Flowers",
+        "description": "There Are No Flowers is a tabletop naval combat design project based on historical maritime conflict. The work centers on turn structure, strategic choices, and collaborative balancing across playtests.",
+        "skills": ["Systems design documentation", "Team collaboration workflow", "Playtest analytics", "Rule balancing"]
       },
       "project8": {
-        "type": "Game Jam Project",
-        "description": "A fast-paced game created for the Scream Jam 2025 competition.",
-        "cta": "Play on itch.io",
-        "details": "This placeholder section is intended for a game-jam deep dive that highlights rapid ideation, practical scoping, and shipping under strict time pressure. In the final write-up, you can describe how the theme was interpreted, which mechanics were selected in the first few hours, and which ideas were deliberately excluded to protect scope. It is useful to explain your development timeline in phases, such as prototype, vertical slice, content pass, and final polish, so readers can see how decisions were made as the deadline approached. You can also document constraints that shaped the final build, including art availability, audio integration limits, and bug triage priorities. If your team used lightweight task tracking or frequent sync check-ins, mention that collaboration rhythm and how it prevented blockers. A closing reflection can focus on what the jam taught you about speed versus quality, plus what you would expand if given one or two extra weeks. This turns a short jam entry into a meaningful production story."
+        "title": "U Are Fired",
+        "description": "U Are Fired is a game jam project created under tight time constraints. It demonstrates quick scoping, mechanic prioritization, and fast iteration for a playable final build.",
+        "skills": ["Game jam production pipeline", "Feature triage and scope control", "Bug fixing under deadline", "Cross-discipline communication"]
       },
       "project9": {
-        "type": "Group Project",
-        "description": "Double Dresden is a point and click mystery solving puzzle game where you play as Private Investigator Harry Dresden, who jumps into the scene of a murder to track down the culprit, only to find that he’s being framed!",
-        "details": "This placeholder long description can be expanded into a full puzzle-game production narrative that covers narrative framing, interaction design, and progression logic. A polished version might begin with the player fantasy and tone, then explain how mystery-solving mechanics were sequenced to balance curiosity and challenge. You can discuss the design of clues, dialogue triggers, and branching interactions, including how you prevented players from getting stuck while still rewarding careful observation. If this was a group effort, describe your specific ownership areas, such as puzzle scripting, scene flow, UI behavior, or narrative integration, so reviewers can quickly map your contributions. Technical insights are valuable here too: save-state handling, event sequencing, and any data-driven content structures used to support iteration. End with concrete takeaways from playtesting, for example which puzzle was redesigned after confusion, and how final pacing improved from early builds. This gives the project page depth and showcases both creative and engineering thinking."
+        "title": "Double Dresden",
+        "description": "Double Dresden is a point-and-click mystery puzzle experience. Players investigate scenes, combine clues, and progress through narrative-driven logic challenges.",
+        "skills": ["Puzzle and narrative integration", "Event flow scripting", "Interactive scene design", "Team development process"]
       }
     },
     "contact": {
@@ -68,6 +64,7 @@
       "title": "王三省 - 游戏开发与设计"
     },
     "nav": {
+      "logo": "<span class=\"red-cap\">王</span>三省",
       "about": "关于我",
       "projects": "项目",
       "contact": "联系",
@@ -79,41 +76,36 @@
       "getInTouch": "联系我"
     },
     "about": {
-      "title": "关于我",
-      "p1": "我目前在罗切斯特理工学院（RIT）攻读游戏设计与开发理学学士，预计 2027 年 5 月毕业。课程涵盖游戏开发算法、问题求解、互动媒体、二维动画与网页技术等方向。",
-      "p2": "在校期间我获得了 RIT 奖学金。我正在寻找 2026 年夏季的实习或 Co-op 机会，以进一步应用 C# 与游戏开发能力。",
-      "p3": "课余时间我喜欢探索新技术，并通过互动媒体项目持续提升创造力与解决问题的能力。"
+      "title": "关于我"
     },
     "projects": {
       "title": "精选项目",
-      "download": "下载",
+      "back": "← 返回项目",
+      "skillsTitle": "技术技能:",
       "project2": {
-        "type": "课程项目",
-        "description": "一款街机风格的多人射击游戏，专注于子弹控制与资源管理。",
-        "details": "【占位说明文本】本段用于展示你未来可以放入的详细项目阐述。正式版本可从项目目标切入，说明你希望玩家在对局中获得怎样的节奏体验，以及为何选择街机化多人射击这一方向。随后可以补充核心机制如何成型，例如子弹管理、角色移动、对战平衡与回合反馈是如何通过多轮测试逐步确定的。你还可以描述开发流程中的关键实践，如原型验证、功能优先级排序、版本迭代与缺陷修复策略，让读者看到你不仅会“做出功能”，也具备完整的工程思维与设计判断。若有数据或观察结果，也可写明玩家常见行为与痛点，并解释你如何据此调整参数。最后加入复盘：哪些设计有效、哪些内容被砍掉、若继续开发下一版会优先优化什么。这样的长段落能帮助招聘方快速理解你的综合能力。"
+        "title": "斗杀驾驶员",
+        "description": "《斗杀驾驶员》是一款街机风格的多人射击游戏，专注于快节奏和子弹控制。项目强调响应式移动、战斗可读性和短对局中的地图流平衡。",
+        "skills": ["Unity (C#)", "多人游戏平衡", "战斗反馈调试", "快速原型化"]
       },
       "project5": {
-        "type": "个人项目",
-        "description": "玩家通过 RTS 操控机器人收集金币并躲避敌人的小游戏。",
-        "cta": "开始游戏",
-        "details": "【占位说明文本】这一段可用于完整说明个人项目从概念到落地的过程。你可以先写项目意图：希望在轻量体量中实现 RTS 操控感，并让玩家在收集与躲避之间持续做决策。接着展开系统层面的细节，例如敌人生成节奏、金币分布逻辑、胜负条件触发方式，以及这些系统如何共同塑造紧张度曲线。若你在测试中发现玩家上手困难，也可以记录你如何改进引导、交互提示与操作反馈，提升可读性与学习效率。技术层面可补充脚本组织方式、状态管理策略、性能优化尝试，以及你如何在有限时间内平衡“新功能开发”和“已有功能打磨”。结尾建议加入复盘性总结：本项目最值得保留的方法论是什么，你在下一次开发中会如何更早控制范围、提高迭代质量。这样能明显提升项目页面的专业度。"
+        "title": "自动机器人",
+        "description": "《自动机器人》是一款小型的RTS启发式生存游戏，玩家路由机器人收集硬币、躲避威胁并在压力下优化决策。",
+        "skills": ["游戏玩法脚本", "AI行为设置", "状态机设计", "用户体验入门迭代"]
       },
       "project7": {
-        "type": "团队项目",
-        "description": "一款以历史海战为题材的桌面战斗游戏。",
-        "gddDownloadPath": "download/DesignDoc_Sailors_ZH.txt",
-        "details": "【占位说明文本】这部分适合作为团队项目的深度介绍，重点展示你在协作、规则设计与文档化沟通中的能力。你可以先说明历史题材如何影响机制设定，再解释团队如何把研究资料转化为可玩的战斗规则。随后可详细描述规则迭代过程：初版中哪些环节拖慢节奏，哪些数值导致策略单一，以及团队如何通过测试与讨论逐步修正。若你负责了某些关键模块（例如平衡、回合流程、文本规范或演示组织），建议明确写出个人贡献，避免被当作泛化参与。还可以补充你们如何收集反馈、记录问题并形成下一轮行动项，让读者看到真实的协作闭环。由于该项目配有可下载文档，这段文字可作为“快速导读”，帮助招聘方先理解亮点再进入完整资料。最后用一两句总结团队开发对你方法论的改变。"
+        "title": "没有花的地方",
+        "description": "《没有花的地方》是一个基于历史海战的桌面战斗设计项目。工作重点是回合结构、战略选择和整个游戏测试中的协作平衡。",
+        "skills": ["系统设计文档", "团队协作工作流", "游戏测试分析", "规则平衡"]
       },
       "project8": {
-        "type": "Game Jam 项目",
-        "description": "为 Scream Jam 2025 比赛制作的快节奏游戏。",
-        "cta": "在 itch.io 体验",
-        "details": "【占位说明文本】该段可用于展示 Game Jam 项目在高压时间下的执行逻辑。正式版本建议按照时间线叙述：如何在最初数小时确定主题解读、筛选核心玩法，并主动放弃高风险功能以保障可交付性。你可以说明原型阶段验证了什么、何时进入内容填充、最后如何进行稳定性检查与紧急修复。若团队分工明确，也可写出沟通节奏与协作方式，例如短周期同步、任务拆分、阻塞处理机制等，这些内容能体现你在紧凑开发中的组织能力。此外，建议记录关键限制条件（美术资源、音频整合、时间不足）以及你如何在限制下做出优先级判断。结尾可加入复盘：若多给一周，你会优先扩展哪些系统、提升哪些体验。通过这样的结构，短期比赛项目也能呈现出清晰的产品思维与工程意识。"
+        "title": "你被开除了",
+        "description": "《你被开除了》是在紧张时间限制下创建的游戏jam项目。它展示了快速范围界定、机制优先级划分和用于可玩最终版本的快速迭代。",
+        "skills": ["游戏jam生产流程", "功能分诊和范围控制", "截止日期内的漏洞修复", "跨学科沟通"]
       },
       "project9": {
-        "type": "小组项目",
-        "description": "Double Dresden 是一款点击式解谜游戏。你将扮演私家侦探 Harry Dresden，在命案现场追查真凶，却发现自己被陷害。",
-        "details": "【占位说明文本】本段可以扩展为解谜叙事项目的完整案例说明。你可以先定义玩家体验目标：希望玩家在调查过程中感到推理推进、线索闭环与剧情压力同步增强。随后描述关卡与谜题如何编排，例如线索触发顺序、交互反馈设计、关键道具关联逻辑，以及如何避免玩家卡关。若你承担了具体职责（如事件脚本、UI 交互、叙事接线、流程调度），应明确列出并举例说明对最终体验的影响。技术方面可加入状态保存、事件链管理或数据驱动配置等实现思路，帮助读者判断你的工程深度。也建议补充测试反馈与改版依据：哪些谜题最初过难、你做了哪些提示优化、最终节奏如何改善。这类长说明能够把“有趣的题材”转化为“可验证的能力展示”，让项目页面更有说服力。"
+        "title": "双重德累斯顿",
+        "description": "《双重德累斯顿》是一款点击式谜题冒险游戏。玩家调查场景、组合线索，并通过叙事驱动的逻辑挑战取得进展。",
+        "skills": ["谜题与叙述整合", "事件流脚本", "互动场景设计", "团队开发流程"]
       }
     },
     "contact": {
@@ -122,7 +114,7 @@
       "sendEmail": "发送邮件"
     },
     "footer": {
-      "copyright": "© 2025 Sanxing Wang. 保留所有权利。"
+      "copyright": "© 2025 王三省. 保留所有权利。"
     }
   }
 }

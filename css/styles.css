@@ -112,6 +112,10 @@ body {
     font-family: 'Syne', sans-serif;
 }
 
+.logo.zh-logo {
+    font-size: 4.5rem;
+}
+
 .logo::first-letter {
     color: #e74c3c;
 }
@@ -361,7 +365,7 @@ body {
 
 /* ==================== Contact Section ==================== */
 .contact {
-    padding: 5rem 2rem;
+    padding: 3rem 2rem;
     background: #dcdcdc;
     color: #111;
     text-align: center;
@@ -396,11 +400,12 @@ body {
 
 .contact-container p {
     color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 1.5rem;
 }
 
 .contact > p {
     font-size: 1.1rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
     opacity: 0.95;
 }
 
@@ -536,6 +541,10 @@ body {
     .logo {
         font-size: 1.2rem;
     }
+
+    .logo.zh-logo {
+        font-size: 3.6rem;
+    }
 }
 @media print {
 
@@ -561,6 +570,23 @@ body {
     color: #111;
 }
 
+.project-page-header {
+    background: #A82727;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.project-nav {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
 .project-page {
     max-width: 1280px;
     margin: 0 auto;
@@ -569,10 +595,34 @@ body {
 
 .project-back-link {
     display: inline-block;
-    margin-bottom: 1rem;
-    color: #111;
+    color: white;
     text-decoration: none;
     font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border: 2px solid white;
+    border-radius: 0.4rem;
+    transition: all 0.3s ease;
+}
+
+.project-back-link:hover {
+    background-color: white;
+    color: #A82727;
+}
+
+.project-language-toggle {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border: 2px solid white;
+    border-radius: 0.4rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.project-language-toggle:hover {
+    background-color: white;
+    color: #A82727;
 }
 
 .project-layout-card {

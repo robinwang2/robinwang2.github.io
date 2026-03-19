@@ -7,19 +7,24 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="project-page-body">
+    <header class="project-page-header">
+        <nav class="project-nav">
+            <a class="project-back-link" data-i18n="projects.back" href="index.html#projects">← Back to Projects</a>
+            <a href="#" id="language-toggle" data-i18n="nav.languageToggle" class="project-language-toggle">中文</a>
+        </nav>
+    </header>
     <main class="project-page">
-        <a class="project-back-link" href="index.html#projects">← Back to Projects</a>
         <section class="project-layout-card">
             <div class="project-main-column">
                 <img class="project-detail-image" src="images/project2.jpg" alt="Dualing Driver cover image">
-                <p class="project-detail-description">
+                <p class="project-detail-description" data-i18n="projects.project2.description">
                     Dualing Driver is an arcade-style multiplayer shooter focused on fast pacing and bullet control.
                     The project emphasizes responsive movement, combat readability, and map flow balancing in short matches.
                 </p>
             </div>
             <aside class="project-skill-panel">
-                <h2>technical skill:</h2>
-                <ul>
+                <h2 data-i18n="projects.skillsTitle">technical skill:</h2>
+                <ul id="skills-list">
                     <li>Unity (C#)</li>
                     <li>Multiplayer gameplay balancing</li>
                     <li>Combat feedback tuning</li>
@@ -28,5 +33,45 @@
             </aside>
         </section>
     </main>
+
+    <script src="js/i18n-embedded.js" defer></script>
+    <script defer>
+        // Load project skills based on current language
+        function loadProjectSkills() {
+            const skillsList = document.getElementById('skills-list');
+            if (!skillsList) return;
+            
+            // Get language from localStorage (same key as i18n-embedded.js)
+            const storedLang = localStorage.getItem('site-language');
+            const lang = storedLang === 'zh-Hans' ? 'zh-Hans' : 'en';
+            
+            // Get translations from embedded data
+            if (window.TRANSLATIONS && window.TRANSLATIONS[lang]) {
+                const skills = window.TRANSLATIONS[lang]?.projects?.project2?.skills || [];
+                if (skills.length > 0) {
+                    skillsList.innerHTML = skills.map(skill => `<li>${skill}</li>`).join('');
+                }
+            } else {
+                // Retry after a short delay if translations not loaded yet
+                setTimeout(loadProjectSkills, 100);
+            }
+        }
+        
+        // Load skills when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadProjectSkills);
+        } else {
+            loadProjectSkills();
+        }
+        
+        // Re-load skills when language toggle button is clicked
+        // Use a small delay to wait for i18n-embedded.js to update
+        const toggleBtn = document.getElementById('language-toggle');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                setTimeout(loadProjectSkills, 100);
+            });
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>i18n Test</title>
+</head>
+<body>
+    <h1>i18n Debug Test</h1>
+    <button id="language-toggle">Toggle Language (中文/EN)</button>
+    <p id="test-output">Test output</p>
+    
+    <script>
+        // 直接测试fetch和JSON加载
+        async function testI18n() {
+            console.log('=== i18n Debug Test Started ===');
+            
+            try {
+                console.log('Attempting to fetch i18n/translations.json...');
+                const response = await fetch('i18n/translations.json');
+                console.log('Fetch status:', response.status);
+                console.log('Fetch ok:', response.ok);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status}`);
+                }
+                
+                const text = await response.text();
+                console.log('Response text length:', text.length);
+                console.log('First 200 chars:', text.substring(0, 200));
+                
+                const translations = JSON.parse(text);
+                console.log('JSON parsed successfully');
+                console.log('Available languages:', Object.keys(translations));
+                console.log('English title:', translations.en?.meta?.title);
+                console.log('Chinese title:', translations['zh-Hans']?.meta?.title);
+                
+                document.getElementById('test-output').textContent = 'Success! Check console for details.';
+            } catch (error) {
+                console.error('Error:', error);
+                console.error('Stack:', error.stack);
+                document.getElementById('test-output').textContent = 'Error: ' + error.message;
+            }
+        }
+        
+        // Test on page load
+        document.addEventListener('DOMContentLoaded', testI18n);
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i18n 诊断工具</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+        .box { background: white; padding: 15px; margin: 10px 0; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .ok { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .warning { color: orange; font-weight: bold; }
+        code { background: #e0e0e0; padding: 2px 5px; border-radius: 3px; }
+        button { padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #5568d3; }
+        #results { margin-top: 20px; }
+        .test-item { margin: 10px 0; padding: 10px; background: #f9f9f9; border-left: 4px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>i18n 诊断工具</h1>
+    
+    <div class="box">
+        <p>这个工具将帮助诊断i18n（国际化）系统的问题</p>
+        <button onclick="runDiagnostics()">运行诊断</button>
+    </div>
+    
+    <div id="results"></div>
+    
+    <script>
+        function log(type, message) {
+            const results = document.getElementById('results');
+            const item = document.createElement('div');
+            item.className = 'test-item';
+            
+            const typeSpan = document.createElement('span');
+            typeSpan.className = type === 'ok' ? 'ok' : (type === 'error' ? 'error' : 'warning');
+            typeSpan.textContent = '[' + type.toUpperCase() + '] ';
+            
+            item.appendChild(typeSpan);
+            item.appendChild(document.createTextNode(message));
+            results.appendChild(item);
+            
+            console.log(`[${type}] ${message}`);
+        }
+        
+        async function runDiagnostics() {
+            document.getElementById('results').innerHTML = '';
+            
+            log('info', '开始诊断...');
+            
+            // 检查 1: 基本环境
+            log('ok', `当前页面 URL: ${window.location.href}`);
+            log('ok', `当前页面位置: ${window.location.pathname}`);
+            
+            // 检查 2: 尝试fetch JSON
+            try {
+                log('info', '尝试从 i18n/translations.json 加载...');
+                const response = await fetch('i18n/translations.json');
+                
+                if (response.status === 200) {
+                    log('ok', `HTTP 请求成功 (状态码: ${response.status})`);
+                } else if (response.status === 404) {
+                    log('error', `文件未找到 (HTTP 404) - 请检查文件路径`);
+                    return;
+                } else {
+                    log('error', `HTTP 错误: ${response.status}`);
+                    return;
+                }
+                
+                const text = await response.text();
+                log('ok', `收到响应数据，长度: ${text.length} 字符`);
+                
+                // 尝试解析JSON
+                try {
+                    const translations = JSON.parse(text);
+                    log('ok', 'JSON 解析成功');
+                    
+                    // 检查语言
+                    if (translations.en) {
+                        log('ok', '找到英文翻译 (en)');
+                        log('ok', `英文标题: "${translations.en.meta.title}"`);
+                    } else {
+                        log('error', '未找到英文翻译 (en)');
+                    }
+                    
+                    if (translations['zh-Hans']) {
+                        log('ok', '找到中文翻译 (zh-Hans)');
+                        log('ok', `中文标题: "${translations['zh-Hans'].meta.title}"`);
+                    } else {
+                        log('error', '未找到中文翻译 (zh-Hans)');
+                    }
+                    
+                    // 检查logo
+                    if (translations.en.nav.logo) {
+                        log('ok', '找到英文 logo');
+                    }
+                    if (translations['zh-Hans'].nav.logo) {
+                        log('ok', '找到中文 logo');
+                    }
+                    
+                } catch (parseError) {
+                    log('error', `JSON 解析失败: ${parseError.message}`);
+                    log('error', '在浏览器控制台中查看详细错误');
+                    console.error(parseError);
+                    return;
+                }
+                
+            } catch (fetchError) {
+                log('error', `Fetch 失败: ${fetchError.message}`);
+                log('warning', '可能的原因：');
+                log('warning', '1. 文件路径不正确（应该是 i18n/translations.json）');
+                log('warning', '2. 浏览器安全限制（CORS）');
+                log('warning', '3. 在本地文件系统中打开（需要使用 Web 服务器）');
+                console.error(fetchError);
+                return;
+            }
+            
+            // 检查 3: 检查 DOM 元素
+            const toggle = document.getElementById('language-toggle');
+            if (toggle) {
+                log('ok', '找到语言切换按钮');
+            } else {
+                log('error', '未找到 ID 为 "language-toggle" 的元素');
+            }
+            
+            // 检查 4: 检查 i18n.js
+            log('info', '检查 i18n.js...');
+            fetch('js/i18n.js')
+                .then(r => {
+                    if (r.ok) {
+                        log('ok', 'i18n.js 文件存在');
+                    } else {
+                        log('error', `i18n.js 返回 HTTP ${r.status}`);
+                    }
+                })
+                .catch(e => log('error', `i18n.js 加载失败: ${e.message}`));
+            
+            log('ok', '诊断完成！');
+        }
+    </script>
+</body>
+</html>
