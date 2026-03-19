@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="header">
+    <header class="header snap-section" id="home">
         <nav class="navbar">
             <div class="nav-container">
                 <a href="#" class="logo"><span class="red-cap">S</span>anxing <span class="red-cap">W</span>ang</a>
@@ -26,30 +26,37 @@
         <section class="hero">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1><span class="red-cap">G</span>ame <span class="red-cap">D</span>eveloper & <span class="red-cap">D</span>esigner</h1>
+                    <h1 class="hero-title">
+                        <span class="title-upper">G</span>ame
+                        <span class="title-upper">D</span>eveloper &
+                        <span class="title-upper">D</span>esigner
+                    </h1>
                     <p data-i18n="hero.description">I create interactive experiences that challenge and inspire. Currently studying Game Design and Development at RIT.</p>
                     <div class="hero-links">
                         <a href="#projects" class="btn btn-primary" data-i18n="hero.viewProjects">View Projects</a>
                         <a href="#contact" class="btn btn-secondary" data-i18n="hero.getInTouch">Get in Touch</a>
                     </div>
                 </div>
+                <div class="hero-side-card">
+                    <img src="images/myImage.jpg" alt="Sanxing Wang portrait" class="hero-profile-image">
+                    <p class="hero-about-label" data-i18n="about.title">About Me</p>
+                </div>
             </div>
         </section>
     </header>
 
     <main>
-        <section class="about" id="about">
+        <nav class="section-indicator" aria-label="Section progress">
+            <a href="#home" class="dot active" data-section="home" aria-label="Go to Home"></a>
+            <a href="#about" class="dot" data-section="about" aria-label="Go to About"></a>
+            <a href="#projects" class="dot" data-section="projects" aria-label="Go to Featured Projects"></a>
+        </nav>
+
+        <section class="about snap-section" id="about">
             <div class="about-container">
-                    <h2 style="font-weight: bold;" data-i18n="about.title">About Me</h2>
-                    <div class="about-flex">
-                        <img src="images/myImage.jpg" alt="Sanxing Wang" class="about-image">
-                        <div class="about-text">
-                            <p data-i18n="about.p1">I'm currently pursuing a Bachelor of Science in Game Design and Development at the Rochester Institute of Technology (RIT), with an anticipated graduation in May 2027. My coursework includes Game Development Algorithms, Problem Solving, Interactive Media, 2D Animation, and Web Technology.</p>
-                            <p data-i18n="about.p2">Along the way, I've earned the RIT Award (merit-based) I'm seeking a co-op or internship opportunity for Summer 2026 where I can apply my skills in C# and game development.</p>
-                            <p data-i18n="about.p3">Outside of academics, I enjoy exploring new technologies and working on interactive media projects that challenge my problem-solving abilities and creativity.</p>
-                        </div>
-                    </div>
-                </div>
+                <img src="images/myImage.jpg" alt="Sanxing Wang" class="about-image">
+                <h2 data-i18n="about.title">About Me</h2>
+                <p class="about-summary" data-i18n="about.p1">I'm currently pursuing a Bachelor of Science in Game Design and Development at the Rochester Institute of Technology (RIT), with an anticipated graduation in May 2027. My coursework includes Game Development Algorithms, Problem Solving, Interactive Media, 2D Animation, and Web Technology.</p>
                 <div class="social-links">
                     <a href="https://www.linkedin.com/in/sanxingwang/" target="_blank">LinkedIn</a>
                     <a href="https://github.com/robinwang2" target="_blank">GitHub</a>
@@ -58,74 +65,16 @@
             </div>
         </section>
 
-        <section class="projects" id="projects">
+        <section class="projects snap-section" id="projects">
             <div class="projects-container">
-                <h2 data-i18n="projects.title">Featured Projects</h2>
-                <div class="projects-grid">
-                    <article class="project-card" id="project2">
-                        <div class="project-image">
-                            <img src="images/project2.jpg" alt="Dualing Driver">
-                        </div>
-                        <div class="project-info">
-                            <h3>Dualing Driver</h3>
-                            <p class="project-type" data-i18n="projects.project2.type">Academic Project</p>
-                            <p data-i18n="projects.project2.description">An arcade-style multiplayer shooter game with bullet control and management.</p>
-                            <p class="project-details" data-i18n="projects.project2.details">[Placeholder detailed project explanation]</p>
-                            <a href="download/Dualing_Drivers_V1.1.zip" download class="project-link" data-i18n="projects.download">Download</a>
-                        </div>
-                    </article>
-
-                    <article class="project-card" id="project5">
-                        <div class="project-image">
-                            <img src="images/project5.jpg" alt="Auto Robot">
-                        </div>
-                        <div class="project-info">
-                            <h3>Auto Robot</h3>
-                            <p class="project-type" data-i18n="projects.project5.type">Personal Project</p>
-                            <p data-i18n="projects.project5.description">A mini game where players control a robot in RTS scheme, collect coins, and escape enemies.</p>
-                            <p class="project-details" data-i18n="projects.project5.details">[Placeholder detailed project explanation]</p>
-                            <a href="https://igme-202-2241.github.io/202-work-robinwang2/Project_04/" target="_blank" class="project-link" data-i18n="projects.project5.cta">Play Game</a>
-                        </div>
-                    </article>
-
-                    <article class="project-card" id="project7">
-                        <div class="project-image">
-                            <img src="images/project7.png" alt="There Are No Flowers On The Graves Of Sailors">
-                        </div>
-                        <div class="project-info">
-                            <h3>There Are No Flowers</h3>
-                            <p class="project-type" data-i18n="projects.project7.type">Team Project</p>
-                            <p data-i18n="projects.project7.description">A tabletop naval combat game set in a historical maritime setting.</p>
-                            <p class="project-details" data-i18n="projects.project7.details">[Placeholder detailed project explanation]</p>
-                            <a href="download/DesignDoc_Sailors.docx" download id="sailors-gdd-link" class="project-link" data-i18n="projects.download">Download</a>
-                        </div>
-                    </article>
-
-                    <article class="project-card" id="project8">
-                        <div class="project-image">
-                            <img src="images/project8.png" alt="U Are Fired">
-                        </div>
-                        <div class="project-info">
-                            <h3>U Are Fired</h3>
-                            <p class="project-type" data-i18n="projects.project8.type">Game Jam Project</p>
-                            <p data-i18n="projects.project8.description">A fast-paced game created for the Scream Jam 2025 competition.</p>
-                            <p class="project-details" data-i18n="projects.project8.details">[Placeholder detailed project explanation]</p>
-                            <a href="https://itch.io/jam/scream-jam-2025/rate/3965395" target="_blank" class="project-link" data-i18n="projects.project8.cta">Play on itch.io</a>
-                        </div>
-                    </article>
-
-                    <article class="project-card" id="project9">
-                        <div class="project-image">
-                            <img src="images/Doubledresden.png" alt="Double Dresden">
-                        </div>
-                        <div class="project-info">
-                            <h3>Double Dresden</h3>
-                            <p class="project-type" data-i18n="projects.project9.type">Group Project</p>
-                            <p data-i18n="projects.project9.description">Double Dresden is a point and click mystery solving puzzle game where you play as Private Investigator Harry Dresden, who jumps into the scene of a murder to track down the culprit, only to find that he’s being framed!</p>
-                            <p class="project-details" data-i18n="projects.project9.details">[Placeholder detailed project explanation]</p>
-                            <a href="download/doubleDresden.zip" download class="project-link" data-i18n="projects.download">Download</a>
-                        </div>
-                    </article>
+                <h2>Featured project</h2>
+                <div class="project-tile-grid">
+                    <a class="project-tile" href="#project2"><img src="images/project2.jpg" alt="Dualing Driver"></a>
+                    <a class="project-tile" href="#project5"><img src="images/project5.jpg" alt="Auto Robot"></a>
+                    <a class="project-tile" href="#project7"><img src="images/project7.png" alt="There Are No Flowers"></a>
+                    <a class="project-tile" href="#project8"><img src="images/project8.png" alt="U Are Fired"></a>
+                    <a class="project-tile" href="#project9"><img src="images/Doubledresden.png" alt="Double Dresden"></a>
+                    <a class="project-tile" href="#contact"><img src="images/project1.jpg" alt="More projects"></a>
                 </div>
             </div>
         </section>
@@ -148,5 +97,6 @@
     </footer>
 
     <script src="js/i18n.js" defer></script>
+    <script src="js/scroll-indicator.js" defer></script>
 </body>
 </html>
