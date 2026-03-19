@@ -21,6 +21,7 @@
                     Dualing Driver is an arcade-style multiplayer shooter focused on fast pacing and bullet control.
                     The project emphasizes responsive movement, combat readability, and map flow balancing in short matches.
                 </p>
+                <a class="project-action-button" data-i18n="projects.project2.action" href="download/Dualing_Drivers_V1.1.zip" download>Download Build</a>
             </div>
             <aside class="project-skill-panel">
                 <h2 data-i18n="projects.skillsTitle">technical skill:</h2>
@@ -36,42 +37,24 @@
 
     <script src="js/i18n-embedded.js" defer></script>
     <script defer>
-        // Load project skills based on current language
         function loadProjectSkills() {
             const skillsList = document.getElementById('skills-list');
             if (!skillsList) return;
-            
-            // Get language from localStorage (same key as i18n-embedded.js)
+
             const storedLang = localStorage.getItem('site-language');
             const lang = storedLang === 'zh-Hans' ? 'zh-Hans' : 'en';
-            
-            // Get translations from embedded data
-            if (window.TRANSLATIONS && window.TRANSLATIONS[lang]) {
-                const skills = window.TRANSLATIONS[lang]?.projects?.project2?.skills || [];
-                if (skills.length > 0) {
-                    skillsList.innerHTML = skills.map(skill => `<li>${skill}</li>`).join('');
-                }
-            } else {
-                // Retry after a short delay if translations not loaded yet
-                setTimeout(loadProjectSkills, 100);
+            const skills = window.TRANSLATIONS?.[lang]?.projects?.project2?.skills;
+
+            if (Array.isArray(skills) && skills.length > 0) {
+                skillsList.innerHTML = skills.map((skill) => `<li>${skill}</li>`).join('');
+                return;
             }
+
+            setTimeout(loadProjectSkills, 100);
         }
-        
-        // Load skills when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadProjectSkills);
-        } else {
-            loadProjectSkills();
-        }
-        
-        // Re-load skills when language toggle button is clicked
-        // Use a small delay to wait for i18n-embedded.js to update
-        const toggleBtn = document.getElementById('language-toggle');
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                setTimeout(loadProjectSkills, 100);
-            });
-        }
+
+        document.addEventListener('DOMContentLoaded', loadProjectSkills);
+        document.addEventListener('languagechange', loadProjectSkills);
     </script>
 </body>
 </html>

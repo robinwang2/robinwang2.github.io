@@ -25,28 +25,33 @@
       "skillsTitle": "technical skill:",
       "project2": {
         "title": "Dualing Driver",
-        "description": "Dualing Driver is an arcade-style multiplayer shooter focused on fast pacing and bullet control. The project emphasizes responsive movement, combat readability, and map flow balancing in short matches.",
-        "skills": ["Unity (C#)", "Multiplayer gameplay balancing", "Combat feedback tuning", "Rapid prototyping"]
+        "description": "Dualing Driver is an arcade-style multiplayer shooter focused on fast-paced combat and precise bullet control. I was responsible for implementing and tuning the core movement and combat systems. By improving hit detection and gameplay feedback, I strengthened combat readability and input responsiveness, while also contributing to map pacing and match-length balance.",
+        "action": "Download Build",
+        "skills": ["Unity (C#)", "Player control systems", "Combat feedback optimization", "Multiplayer balance design", "Rapid prototyping"]
       },
       "project5": {
         "title": "Auto Robot",
-        "description": "Auto Robot is a small RTS-inspired survival game where players route a robot to collect coins, avoid threats, and optimize decisions under pressure.",
-        "skills": ["Gameplay scripting", "AI behavior setup", "State machine design", "UX onboarding iteration"]
+        "description": "Auto Robot is an RTS-inspired survival strategy game in which players plan robot paths for resource collection and risk avoidance. I designed and implemented an AI behavior system based on a finite state machine, allowing the robot to make decisions in a dynamic environment. I also iterated on the onboarding flow to reduce the learning curve and improve the first-time player experience.",
+        "action": "Play Online",
+        "skills": ["Unity (C#)", "AI finite state machines (FSM)", "Pathing and behavior logic", "Systems iteration design", "Onboarding optimization"]
       },
       "project7": {
         "title": "There Are No Flowers",
-        "description": "There Are No Flowers is a tabletop naval combat design project based on historical maritime conflict. The work centers on turn structure, strategic choices, and collaborative balancing across playtests.",
-        "skills": ["Systems design documentation", "Team collaboration workflow", "Playtest analytics", "Rule balancing"]
+        "description": "Tomb of Sailors: No Flowers is a tabletop strategy game design project set against a historical naval warfare backdrop. I led the design of the turn structure and core rules, then used data from multiple playtests to continuously refine strategic weight and win conditions, improving overall depth and expanding player decision space.",
+        "action": "Download Design Doc",
+        "skills": ["Game systems design", "Rules modeling", "Playtest data analysis", "Balance tuning", "Team collaboration"]
       },
       "project8": {
         "title": "U Are Fired",
-        "description": "U Are Fired is a game jam project created under tight time constraints. It demonstrates quick scoping, mechanic prioritization, and fast iteration for a playable final build.",
-        "skills": ["Game jam production pipeline", "Feature triage and scope control", "Bug fixing under deadline", "Cross-discipline communication"]
+        "description": "U Are Fired is a project completed during a time-limited game jam. I was responsible for quickly defining the core gameplay and prioritizing features, building a playable version within an extremely short production cycle. I also coordinated the team to finish critical features and bug fixes before the deadline to ensure a complete delivery.",
+        "action": "View on itch.io",
+        "skills": ["Game jam development", "Scope control", "Rapid iteration", "Bug fixing and release", "Cross-team collaboration"]
       },
       "project9": {
         "title": "Double Dresden",
-        "description": "Double Dresden is a point-and-click mystery puzzle experience. Players investigate scenes, combine clues, and progress through narrative-driven logic challenges.",
-        "skills": ["Puzzle and narrative integration", "Event flow scripting", "Interactive scene design", "Team development process"]
+        "description": "Double Dresden is a narrative-driven point-and-click puzzle game. I contributed to the design of the clue system and event flow, combining narrative information with puzzle mechanics to guide players through deduction and story progression. I also refined interaction feedback to strengthen immersion.",
+        "action": "Download Installer",
+        "skills": ["Narrative design", "Puzzle systems design", "Event-driven architecture", "Interaction design", "Team development"]
       }
     },
     "contact": {
@@ -85,26 +90,31 @@
       "project2": {
         "title": "斗杀驾驶员",
         "description": "《斗杀驾驶员》是一款街机风格的多人射击游戏，专注于快节奏和子弹控制。项目强调响应式移动、战斗可读性和短对局中的地图流平衡。",
+        "action": "下载压缩包",
         "skills": ["Unity (C#)", "多人游戏平衡", "战斗反馈调试", "快速原型化"]
       },
       "project5": {
         "title": "自动机器人",
         "description": "《自动机器人》是一款小型的RTS启发式生存游戏，玩家路由机器人收集硬币、躲避威胁并在压力下优化决策。",
+        "action": "在线体验",
         "skills": ["游戏玩法脚本", "AI行为设置", "状态机设计", "用户体验入门迭代"]
       },
       "project7": {
         "title": "没有花的地方",
         "description": "《没有花的地方》是一个基于历史海战的桌面战斗设计项目。工作重点是回合结构、战略选择和整个游戏测试中的协作平衡。",
+        "action": "下载设计文档",
         "skills": ["系统设计文档", "团队协作工作流", "游戏测试分析", "规则平衡"]
       },
       "project8": {
         "title": "你被开除了",
         "description": "《你被开除了》是在紧张时间限制下创建的游戏jam项目。它展示了快速范围界定、机制优先级划分和用于可玩最终版本的快速迭代。",
+        "action": "前往 itch.io",
         "skills": ["游戏jam生产流程", "功能分诊和范围控制", "截止日期内的漏洞修复", "跨学科沟通"]
       },
       "project9": {
         "title": "双重德累斯顿",
         "description": "《双重德累斯顿》是一款点击式谜题冒险游戏。玩家调查场景、组合线索，并通过叙事驱动的逻辑挑战取得进展。",
+        "action": "下载安装包",
         "skills": ["谜题与叙述整合", "事件流脚本", "互动场景设计", "团队开发流程"]
       }
     },

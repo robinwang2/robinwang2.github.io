@@ -653,6 +653,23 @@ body {
     max-width: 90%;
 }
 
+.project-action-button {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 0.85rem 1.6rem;
+    border: 2px solid #111;
+    border-radius: 0.4rem;
+    color: #111;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.project-action-button:hover {
+    background: #111;
+    color: #f5f5f5;
+}
+
 .project-skill-panel {
     border: 1px solid #77a6f7;
     padding: 1rem;
@@ -681,5 +698,10 @@ body {
 
     .project-detail-description {
         max-width: 100%;
+    }
+
+    .project-action-button {
+        width: 100%;
+        text-align: center;
     }
 }
