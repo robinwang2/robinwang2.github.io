@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dualing Driver | Sanxing Wang</title>
+    <title>Project | Sanxing Wang</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="project-page-body">
+<body class="project-page-body" data-project-id="project2">
     <header class="project-page-header">
         <nav class="project-nav">
             <a class="project-back-link" data-i18n="projects.back" href="index.html#projects">← Back to Projects</a>
@@ -16,45 +16,17 @@
     <main class="project-page">
         <section class="project-layout-card">
             <div class="project-main-column">
-                <img class="project-detail-image" src="images/project2.jpg" alt="Dualing Driver cover image">
-                <p class="project-detail-description" data-i18n="projects.project2.description">
-                    Dualing Driver is an arcade-style multiplayer shooter focused on fast pacing and bullet control.
-                    The project emphasizes responsive movement, combat readability, and map flow balancing in short matches.
-                </p>
-                <a class="project-action-button" data-i18n="projects.project2.action" href="download/Dualing_Drivers_V1.1.zip" download>Download Build</a>
+                <img class="project-detail-image" src="" alt="">
+                <p class="project-detail-description"></p>
+                <a class="project-action-button" href="#">Project Link</a>
             </div>
             <aside class="project-skill-panel">
                 <h2 data-i18n="projects.skillsTitle">technical skill:</h2>
-                <ul id="skills-list">
-                    <li>Unity (C#)</li>
-                    <li>Multiplayer gameplay balancing</li>
-                    <li>Combat feedback tuning</li>
-                    <li>Rapid prototyping</li>
-                </ul>
+                <ul id="skills-list"></ul>
             </aside>
         </section>
     </main>
 
-    <script src="js/i18n-embedded.js" defer></script>
-    <script defer>
-        function loadProjectSkills() {
-            const skillsList = document.getElementById('skills-list');
-            if (!skillsList) return;
-
-            const storedLang = localStorage.getItem('site-language');
-            const lang = storedLang === 'zh-Hans' ? 'zh-Hans' : 'en';
-            const skills = window.TRANSLATIONS?.[lang]?.projects?.project2?.skills;
-
-            if (Array.isArray(skills) && skills.length > 0) {
-                skillsList.innerHTML = skills.map((skill) => `<li>${skill}</li>`).join('');
-                return;
-            }
-
-            setTimeout(loadProjectSkills, 100);
-        }
-
-        document.addEventListener('DOMContentLoaded', loadProjectSkills);
-        document.addEventListener('languagechange', loadProjectSkills);
-    </script>
+    <script src="js/i18n-embedded.js?v=20260609-refactor" defer></script>
 </body>
 </html>

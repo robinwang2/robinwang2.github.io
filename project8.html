@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U Are Fired | Sanxing Wang</title>
+    <title>Project | Sanxing Wang</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="project-page-body">
+<body class="project-page-body" data-project-id="project8">
     <header class="project-page-header">
         <nav class="project-nav">
             <a class="project-back-link" data-i18n="projects.back" href="index.html#projects">← Back to Projects</a>
@@ -16,45 +16,17 @@
     <main class="project-page">
         <section class="project-layout-card">
             <div class="project-main-column">
-                <img class="project-detail-image" src="images/project8.png" alt="U Are Fired cover image">
-                <p class="project-detail-description" data-i18n="projects.project8.description">
-                    U Are Fired is a game jam project created under tight time constraints.
-                    It demonstrates quick scoping, mechanic prioritization, and fast iteration for a playable final build.
-                </p>
-                <a class="project-action-button" data-i18n="projects.project8.action" href="https://photoer.itch.io/you-are-fired" target="_blank" rel="noopener noreferrer">View on itch.io</a>
+                <img class="project-detail-image" src="" alt="">
+                <p class="project-detail-description"></p>
+                <a class="project-action-button" href="#">Project Link</a>
             </div>
             <aside class="project-skill-panel">
                 <h2 data-i18n="projects.skillsTitle">technical skill:</h2>
-                <ul id="skills-list">
-                    <li>Game jam production pipeline</li>
-                    <li>Feature triage and scope control</li>
-                    <li>Bug fixing under deadline</li>
-                    <li>Cross-discipline communication</li>
-                </ul>
+                <ul id="skills-list"></ul>
             </aside>
         </section>
     </main>
 
-    <script src="js/i18n-embedded.js" defer></script>
-    <script defer>
-        function loadProjectSkills() {
-            const skillsList = document.getElementById('skills-list');
-            if (!skillsList) return;
-
-            const storedLang = localStorage.getItem('site-language');
-            const lang = storedLang === 'zh-Hans' ? 'zh-Hans' : 'en';
-            const skills = window.TRANSLATIONS?.[lang]?.projects?.project8?.skills;
-
-            if (Array.isArray(skills) && skills.length > 0) {
-                skillsList.innerHTML = skills.map((skill) => `<li>${skill}</li>`).join('');
-                return;
-            }
-
-            setTimeout(loadProjectSkills, 100);
-        }
-
-        document.addEventListener('DOMContentLoaded', loadProjectSkills);
-        document.addEventListener('languagechange', loadProjectSkills);
-    </script>
+    <script src="js/i18n-embedded.js?v=20260609-refactor" defer></script>
 </body>
 </html>

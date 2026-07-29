@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This first post checks that Markdown, categories, tags, and bilingual pages are all generated correctly.">
+    <title>Welcome to My Blog | Sanxing Wang</title>
+    <link rel="stylesheet" href="../../css/styles.css?v=20260625-blog-css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="project-page-body blog-page-body">
+    <header class="project-page-header blog-site-header">
+        <nav class="project-nav">
+            <a class="project-back-link" href="../../blog.html">Back to Blog</a>
+            <a href="../2026-06-25-welcome.html" id="language-toggle" class="project-language-toggle" data-lang-target="zh">中文</a>
+        </nav>
+    </header>
+    <main class="blog-post-page">
+        <article class="blog-post">
+            <header class="blog-post-header">
+                <p class="blog-kicker">Sanxing Wang</p>
+                <h1>Welcome to My Blog</h1>
+                <div class="blog-card-meta">
+                    <time datetime="2026-06-25">June 25, 2026</time>
+                    <span>Notes</span>
+                </div>
+                <div class="blog-tags"><span class="blog-tag">Creative Work</span><span class="blog-tag">Game Design</span><span class="blog-tag">AI</span></div>
+                <p class="blog-post-summary">This first post checks that Markdown, categories, tags, and bilingual pages are all generated correctly.</p>
+            </header>
+            <div class="blog-post-content">
+<p>This is where I will publish writing about games, technology, creative work, and the world around them.</p>
+<p>I want this blog to feel like a long-running workbench. Some posts will be project retrospectives, some will be development logs, and some may become commentary on AI, current events, or personal observations. It does not need to start huge. It just needs to keep thoughts in motion and gradually find its own shape.</p>
+<h3>What I Might Write About</h3>
+<ul><li>Game design and systems analysis</li><li>Unity, AI tools, and prototype development</li><li>Project retrospectives, coursework, and devlogs</li><li>Current events and personal observations</li></ul>
+<p>I plan to write primarily in Chinese, then translate posts into English. That lets the site keep my most natural voice while still making the writing accessible to English readers.</p>
+            </div>
+        </article>
+    </main>
+    <script>
+    document.getElementById('language-toggle').addEventListener('click', (event) => {
+      localStorage.setItem('site-language', event.currentTarget.dataset.langTarget === 'en' ? 'en' : 'zh-Hans');
+    });
+    </script>
+</body>
+</html>
