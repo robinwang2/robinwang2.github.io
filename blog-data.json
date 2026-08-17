@@ -29,6 +29,14 @@
   "posts": [
     {
       "lang": "zh",
+      "slug": "2026-08-17-post",
+      "title": "测试线上编辑博客",
+      "date": "2026-08-17",
+      "categoryKey": "essay",
+      "source": "posts/zh/2026-08-17-post.md"
+    },
+    {
+      "lang": "zh",
       "slug": "2026-06-25-star-citizen-emptiness",
       "title": "游戏批评：《星际公民》的空虚感",
       "date": "2026-06-25",
