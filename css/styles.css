@@ -33,8 +33,10 @@ body {
     --text-light: #7f8c8d;
 }
 
+/* Sits on the red header, so these capitals are black like .title-upper —
+   brand red here would make them disappear. */
 .red-cap {
-    color: var(--accent-color);
+    color: #111;
 }
 
 .nav-menu {
@@ -125,7 +127,7 @@ body {
 }
 
 .logo::first-letter {
-    color: var(--accent-color);
+    color: #111;
 }
 
 /* Style capitalized letters in hero text */
