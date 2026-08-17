@@ -237,11 +237,31 @@
       link.className = 'project-tile';
       link.href = project.page;
 
+      const thumb = document.createElement('span');
+      thumb.className = 'project-tile-thumb';
+
       const image = document.createElement('img');
       image.src = project.image;
       image.alt = projectText.title;
+      thumb.append(image);
 
-      link.append(image);
+      const caption = document.createElement('span');
+      caption.className = 'project-tile-caption';
+
+      const title = document.createElement('span');
+      title.className = 'project-tile-title';
+      title.textContent = projectText.title;
+      caption.append(title);
+
+      // First entry of the skills list doubles as the role/tech one-liner.
+      if (Array.isArray(projectText.skills) && projectText.skills.length) {
+        const role = document.createElement('span');
+        role.className = 'project-tile-role';
+        role.textContent = projectText.skills.slice(0, 2).join(' · ');
+        caption.append(role);
+      }
+
+      link.append(thumb, caption);
       grid.append(link);
     });
   };

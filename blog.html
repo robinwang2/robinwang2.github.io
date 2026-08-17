@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="这里会放我关于游戏、技术、创作和现实议题的文章。">
     <title>博客 | Sanxing Wang</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260625-blog-css">
+    <link rel="stylesheet" href="css/styles.css?v=20260817-blog-categories">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -39,7 +39,8 @@
     (() => {
       const storageKey = 'site-language';
       const copy = {"zh":{"label":"中文","htmlLang":"zh-Hans","listTitle":"博客","listIntro":"这里会放我关于游戏、技术、创作和现实议题的文章。","allLabel":"全部","categoryLabel":"分类","tagLabel":"标签","emptyLabel":"还没有发布文章。","readMore":"阅读全文","backToBlog":"返回博客","switchLabel":"EN","homeLabel":"主页","dateLocale":"zh-CN"},"en":{"label":"English","htmlLang":"en","listTitle":"Blog","listIntro":"Notes on games, technology, creative work, and the world around them.","allLabel":"All","categoryLabel":"Category","tagLabel":"Tag","emptyLabel":"No posts published yet.","readMore":"Read article","backToBlog":"Back to Blog","switchLabel":"中文","homeLabel":"Home","dateLocale":"en-US"}};
-      const posts = [{"lang":"zh","slug":"2026-06-25-star-citizen-emptiness","title":"游戏批评：《星际公民》的空虚感","date":"2026-06-25","displayDate":"2026年6月25日","category":"游戏批评","tags":["星际公民","游戏设计","MMO","太空游戏","行业观察"],"summary":"从信息设计、付费模式、删档风险、独狼体验和多人船人效问题切入，讨论《星际公民》为什么会在宏伟宇宙中制造一种空虚感。","href":"blog/2026-06-25-star-citizen-emptiness.html"},{"lang":"zh","slug":"2026-06-25-welcome","title":"欢迎来到我的博客","date":"2026-06-25","displayDate":"2026年6月25日","category":"随笔","tags":["创作","游戏设计","AI"],"summary":"这是博客系统的第一篇文章，用来确认 Markdown、分类、标签和中英双语页面都能正常生成。","href":"blog/2026-06-25-welcome.html"},{"lang":"en","slug":"2026-06-25-star-citizen-emptiness","title":"Game Criticism: The Emptiness of Star Citizen","date":"2026-06-25","displayDate":"June 25, 2026","category":"Game Criticism","tags":["Star Citizen","Game Design","MMO","Space Games","Industry Commentary"],"summary":"A critique of how Star Citizen's information design, monetization, wipes, solo experience, and multicrew ship balance create a sense of emptiness inside an otherwise impressive universe.","href":"blog/en/2026-06-25-star-citizen-emptiness.html"},{"lang":"en","slug":"2026-06-25-welcome","title":"Welcome to My Blog","date":"2026-06-25","displayDate":"June 25, 2026","category":"Notes","tags":["Creative Work","Game Design","AI"],"summary":"This first post checks that Markdown, categories, tags, and bilingual pages are all generated correctly.","href":"blog/en/2026-06-25-welcome.html"}];
+      const categoryDefs = [{"key":"tech","zh":"技术","en":"Tech"},{"key":"mechanics","zh":"玩法拆解","en":"Mechanics"},{"key":"review","zh":"评价","en":"Reviews"},{"key":"devlog","zh":"开发日志","en":"Devlog"},{"key":"essay","zh":"随笔","en":"Notes"}];
+      const posts = [{"lang":"zh","slug":"2026-06-25-star-citizen-emptiness","title":"游戏批评：《星际公民》的空虚感","date":"2026-06-25","displayDate":"2026年6月25日","categoryKey":"review","tags":["星际公民","游戏设计","MMO","太空游戏","行业观察"],"summary":"从信息设计、付费模式、删档风险、独狼体验和多人船人效问题切入，讨论《星际公民》为什么会在宏伟宇宙中制造一种空虚感。","href":"blog/2026-06-25-star-citizen-emptiness.html"},{"lang":"zh","slug":"2026-06-25-welcome","title":"欢迎来到我的博客","date":"2026-06-25","displayDate":"2026年6月25日","categoryKey":"essay","tags":["创作","游戏设计","AI"],"summary":"这是博客系统的第一篇文章，用来确认 Markdown、分类、标签和中英双语页面都能正常生成。","href":"blog/2026-06-25-welcome.html"},{"lang":"en","slug":"2026-06-25-star-citizen-emptiness","title":"Game Criticism: The Emptiness of Star Citizen","date":"2026-06-25","displayDate":"June 25, 2026","categoryKey":"review","tags":["Star Citizen","Game Design","MMO","Space Games","Industry Commentary"],"summary":"A critique of how Star Citizen's information design, monetization, wipes, solo experience, and multicrew ship balance create a sense of emptiness inside an otherwise impressive universe.","href":"blog/en/2026-06-25-star-citizen-emptiness.html"},{"lang":"en","slug":"2026-06-25-welcome","title":"Welcome to My Blog","date":"2026-06-25","displayDate":"June 25, 2026","categoryKey":"essay","tags":["Creative Work","Game Design","AI"],"summary":"This first post checks that Markdown, categories, tags, and bilingual pages are all generated correctly.","href":"blog/en/2026-06-25-welcome.html"}];
       let currentLang = localStorage.getItem(storageKey) === 'en' ? 'en' : 'zh';
       let activeCategory = 'all';
       let activeTag = 'all';
@@ -54,21 +55,26 @@
 
       const getLangPosts = () => posts.filter((post) => post.lang === currentLang);
 
-      const renderButtons = (target, values, activeValue, onClick) => {
-        target.replaceChildren();
-        const allButton = document.createElement('button');
-        allButton.type = 'button';
-        allButton.textContent = copy[currentLang].allLabel;
-        allButton.className = activeValue === 'all' ? 'active' : '';
-        allButton.addEventListener('click', () => onClick('all'));
-        target.append(allButton);
+      const categoryLabel = (key) => {
+        const match = categoryDefs.find((category) => category.key === key);
+        return match ? match[currentLang] : '';
+      };
 
-        values.forEach((value) => {
+      const renderButtons = (target, options, activeValue, onClick) => {
+        target.replaceChildren();
+        options.forEach((option) => {
           const button = document.createElement('button');
           button.type = 'button';
-          button.textContent = value;
-          button.className = activeValue === value ? 'active' : '';
-          button.addEventListener('click', () => onClick(value));
+          button.textContent = option.label;
+          button.className = activeValue === option.value ? 'active' : '';
+          button.setAttribute('aria-pressed', activeValue === option.value ? 'true' : 'false');
+          if (typeof option.count === 'number') {
+            const count = document.createElement('span');
+            count.className = 'blog-filter-count';
+            count.textContent = option.count;
+            button.append(count);
+          }
+          button.addEventListener('click', () => onClick(option.value));
           target.append(button);
         });
       };
@@ -85,24 +91,40 @@
         document.querySelector('.project-back-link').textContent = langCopy.homeLabel;
 
         const langPosts = getLangPosts();
-        const categories = [...new Set(langPosts.map((post) => post.category).filter(Boolean))];
+        const categoryOptions = categoryDefs
+          .map((category) => ({
+            value: category.key,
+            label: category[currentLang],
+            count: langPosts.filter((post) => post.categoryKey === category.key).length
+          }))
+          .filter((option) => option.count > 0);
         const tags = [...new Set(langPosts.flatMap((post) => post.tags))];
 
-        if (!categories.includes(activeCategory)) activeCategory = 'all';
+        if (!categoryOptions.some((option) => option.value === activeCategory)) activeCategory = 'all';
         if (!tags.includes(activeTag)) activeTag = 'all';
 
-        renderButtons(document.getElementById('category-filters'), categories, activeCategory, (value) => {
-          activeCategory = value;
-          render();
-        });
+        renderButtons(
+          document.getElementById('category-filters'),
+          [{ value: 'all', label: langCopy.allLabel, count: langPosts.length }].concat(categoryOptions),
+          activeCategory,
+          (value) => {
+            activeCategory = value;
+            render();
+          }
+        );
 
-        renderButtons(document.getElementById('tag-filters'), tags, activeTag, (value) => {
-          activeTag = value;
-          render();
-        });
+        renderButtons(
+          document.getElementById('tag-filters'),
+          [{ value: 'all', label: langCopy.allLabel }].concat(tags.map((tag) => ({ value: tag, label: tag }))),
+          activeTag,
+          (value) => {
+            activeTag = value;
+            render();
+          }
+        );
 
         const visiblePosts = langPosts.filter((post) => {
-          const categoryMatches = activeCategory === 'all' || post.category === activeCategory;
+          const categoryMatches = activeCategory === 'all' || post.categoryKey === activeCategory;
           const tagMatches = activeTag === 'all' || post.tags.includes(activeTag);
           return categoryMatches && tagMatches;
         });
@@ -117,7 +139,7 @@
           const tagsHtml = post.tags.map((tag) => '<span class="blog-tag">' + escapeHtml(tag) + '</span>').join('');
           return '<article class="blog-list-item">' +
             '<div class="blog-card-meta"><time datetime="' + escapeHtml(post.date) + '">' + escapeHtml(post.displayDate) + '</time>' +
-            (post.category ? '<span>' + escapeHtml(post.category) + '</span>' : '') + '</div>' +
+            (post.categoryKey ? '<span>' + escapeHtml(categoryLabel(post.categoryKey)) + '</span>' : '') + '</div>' +
             '<h2><a href="' + escapeHtml(post.href) + '">' + escapeHtml(post.title) + '</a></h2>' +
             '<p>' + escapeHtml(post.summary) + '</p>' +
             '<div class="blog-tags">' + tagsHtml + '</div>' +
@@ -130,7 +152,6 @@
         event.preventDefault();
         currentLang = currentLang === 'zh' ? 'en' : 'zh';
         localStorage.setItem(storageKey, currentLang === 'en' ? 'en' : 'zh-Hans');
-        activeCategory = 'all';
         activeTag = 'all';
         render();
       });

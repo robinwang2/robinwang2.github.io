@@ -14,7 +14,9 @@ body {
     line-height: 1.6;
     color: #333;
     background-color: #fafafa;
-    scroll-snap-type: y mandatory;
+    /* proximity, not mandatory: sections taller than the viewport would
+       otherwise trap content the user can never scroll to. */
+    scroll-snap-type: y proximity;
     scroll-padding-top: 0;
     overscroll-behavior-y: contain;
     overflow-y: auto;
@@ -23,7 +25,8 @@ body {
 
 :root {
     --primary-color: #2c3e50;
-    --accent-color: #e74c3c;
+    --accent-color: #A82727;
+    --accent-dark: #8f2020;
     --light-bg: #f8f9fa;
     --border-color: #e0e0e0;
     --text-dark: #2c3e50;
@@ -31,7 +34,7 @@ body {
 }
 
 .red-cap {
-    color: #000;
+    color: var(--accent-color);
 }
 
 .nav-menu {
@@ -52,6 +55,9 @@ body {
     font-weight: 600;
     font-size: 0.95rem;
     padding: 0.6rem 1.5rem;
+    /* The diagonal runs under the nav, so links can land on red or on grey.
+       A translucent dark fill keeps the white text legible on both. */
+    background-color: rgba(17, 17, 17, 0.3);
     border: 2px solid white;
     border-radius: 0.4rem;
     transition: all 0.3s ease;
@@ -60,7 +66,7 @@ body {
 
 .nav-menu a:hover {
     background-color: white;
-    color: #667eea;
+    color: var(--accent-color);
 }
 
 /* ==================== Header & Navigation ==================== */
@@ -119,27 +125,33 @@ body {
 }
 
 .logo::first-letter {
-    color: #e74c3c;
+    color: var(--accent-color);
 }
 
 /* Style capitalized letters in hero text */
 .hero-text h1 {
     font-family: 'Syne', sans-serif;
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 4.4vw, 3.5rem);
     font-weight: 800;
     line-height: 1.2;
     color: white;
     margin-bottom: 1rem;
     transform: rotate(-28deg);
     transform-origin: left center;
-    max-width: 480px;
+    max-width: min(480px, 100%);
 }
 
+/* The diagonal cuts through this paragraph, so it sits on red and grey at the
+   same time. A dark scrim keeps the white text readable over both. */
 .hero-text p {
     font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.95);
+    color: #fff;
     margin-bottom: 2rem;
     line-height: 1.8;
+    background: rgba(17, 17, 17, 0.62);
+    border-radius: 0.5rem;
+    padding: 0.9rem 1.15rem;
+    max-width: 46ch;
 }
 
 .title-upper {
@@ -165,19 +177,19 @@ body {
 }
 
 .btn-primary {
-    background-color: #e74c3c;
+    background-color: var(--accent-color);
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #c0392b;
+    background-color: var(--accent-dark);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+    box-shadow: 0 4px 12px rgba(168, 39, 39, 0.3);
 }
 
 .btn-secondary {
     background-color: white;
-    color: #667eea;
+    color: var(--accent-color);
     border: 2px solid white;
 }
 
@@ -213,6 +225,25 @@ body {
     gap: 5rem;
 }
 
+/* The rotated h1 swings left of its box; reserve room so it is not clipped. */
+.hero-text {
+    padding-left: 3rem;
+    min-width: 0;
+}
+
+/* Sits on the red wedge, so the red primary button would have no visible
+   shape — invert it here the same way the contact panel does. */
+.hero .btn-primary {
+    background-color: #fff;
+    color: var(--accent-color);
+}
+
+.hero .btn-primary:hover {
+    background-color: #111;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
 .hero-side-card {
     display: flex;
     flex-direction: column;
@@ -239,14 +270,16 @@ body {
     padding: 5rem 2rem;
     background-color: #e7e7e7;
     display: flex;
-    align-items: center;
+    /* safe centering: if the content is taller than the section, overflow goes
+       to the bottom instead of clipping the top out of reach. */
+    align-items: safe center;
     justify-content: center;
 }
 
 .about-container {
-    max-width: 560px;
+    max-width: 640px;
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
 }
 
 .about h2 {
@@ -255,7 +288,7 @@ body {
     font-weight: 700;
     color: #111;
     margin: 1.25rem 0 0.8rem;
-    text-align: center;
+    text-align: left;
 }
 
 .about-image {
@@ -268,32 +301,32 @@ body {
 }
 
 .about-summary {
-    font-size: 2rem;
-    line-height: 1.35;
-    color: #111;
-    max-width: 100%;
-    margin: 0 auto 2rem;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: #222;
+    max-width: 65ch;
+    margin: 0 0 2rem;
 }
 
 .social-links {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 2rem;
     flex-wrap: wrap;
 }
 
 .social-links a {
     padding: 0.75rem 2rem;
-    border: 2px solid #667eea;
+    border: 2px solid var(--accent-color);
     border-radius: 0.5rem;
     text-decoration: none;
-    color: #667eea;
+    color: var(--accent-color);
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 .social-links a:hover {
-    background-color: #667eea;
+    background-color: var(--accent-color);
     color: white;
 }
 
@@ -302,7 +335,7 @@ body {
     padding: 5rem 2rem;
     background-color: #e7e7e7;
     display: flex;
-    align-items: center;
+    align-items: safe center;
     justify-content: center;
 }
 
@@ -352,6 +385,17 @@ body {
 }
 
 .project-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    width: 100%;
+    /* without this a long title's min-content width widens its grid column */
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
+}
+
+.project-tile-thumb {
     display: block;
     width: 100%;
     aspect-ratio: 1 / 1;
@@ -363,6 +407,36 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.project-tile:hover img {
+    transform: scale(1.04);
+}
+
+.project-tile-caption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.project-tile-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.project-tile:hover .project-tile-title {
+    color: var(--accent-color);
+}
+
+.project-tile-role {
+    color: #5a5a5a;
+    font-size: 0.85rem;
+    line-height: 1.4;
 }
 
 /* ==================== Contact Section ==================== */
@@ -427,6 +501,18 @@ body {
 .contact .btn-secondary:hover {
     color: #fff;
 }
+
+/* On the red contact panel the red primary button disappears — invert it. */
+.contact .btn-primary {
+    background-color: #fff;
+    color: #A82727;
+}
+
+.contact .btn-primary:hover {
+    background-color: #111;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
 /* ==================== Footer ==================== */
 .footer {
     background-color: #A82727;
@@ -437,6 +523,43 @@ body {
 }
 
 /* ==================== Responsive Design ==================== */
+/* Tablet / small laptop: the two-column hero and single-row nav stop fitting
+   well before 768px, so relax both here. */
+@media (max-width: 1024px) {
+    .nav-menu {
+        gap: 0.75rem;
+    }
+
+    .nav-menu a {
+        padding: 0.5rem 1rem;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding-bottom: 3rem;
+    }
+
+    .hero-text h1 {
+        transform: rotate(-16deg);
+    }
+
+    .hero-text {
+        padding-left: 2rem;
+    }
+
+    .hero-side-card {
+        align-items: flex-start;
+        flex-direction: row;
+        gap: 1.5rem;
+        margin-top: 0;
+    }
+
+    .hero-about-label {
+        align-self: center;
+    }
+}
+
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
@@ -473,6 +596,10 @@ body {
         transform: rotate(-14deg);
     }
 
+    .hero-text {
+        padding-left: 1.25rem;
+    }
+
     .hero-links {
         flex-direction: column;
     }
@@ -496,7 +623,7 @@ body {
     }
 
     .about-summary {
-        font-size: 1.45rem;
+        font-size: 1.05rem;
     }
 
     .project-tile-grid {
@@ -538,12 +665,20 @@ body {
     }
 
     .about-summary {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .project-tile-grid {
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
+    }
+
+    .project-tile-title {
+        font-size: 0.95rem;
+    }
+
+    .project-tile-role {
+        font-size: 0.78rem;
     }
 
     .nav-menu {
@@ -693,7 +828,7 @@ body {
 }
 
 .project-skill-panel {
-    border: 1px solid #77a6f7;
+    border: 1px solid #b6b6b6;
     padding: 1rem;
     background: transparent;
 }
@@ -821,6 +956,25 @@ body {
     color: #fff;
 }
 
+#category-filters button {
+    border-color: #A82727;
+    color: #A82727;
+}
+
+#category-filters button:hover,
+#category-filters button.active {
+    background: #A82727;
+    border-color: #A82727;
+    color: #fff;
+}
+
+.blog-filter-count {
+    display: inline-block;
+    font-size: 0.8em;
+    margin-left: 0.4rem;
+    opacity: 0.7;
+}
+
 .blog-list {
     display: grid;
     gap: 1.25rem;
@@ -883,8 +1037,8 @@ body {
 }
 
 .blog-tag {
-    border: 1px solid #77a6f7;
-    color: #1d467e;
+    border: 1px solid #b6b6b6;
+    color: #444;
     font-size: 0.86rem;
     font-weight: 800;
     padding: 0.25rem 0.55rem;
@@ -973,7 +1127,7 @@ body {
 }
 
 .blog-post-content a {
-    color: #1d467e;
+    color: #A82727;
     font-weight: 700;
 }
 

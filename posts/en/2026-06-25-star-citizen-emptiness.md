@@ -1,7 +1,7 @@
 ---
 title: "Game Criticism: The Emptiness of Star Citizen"
 date: "2026-06-25"
-category: "Game Criticism"
+category: "review"
 tags: ["Star Citizen", "Game Design", "MMO", "Space Games", "Industry Commentary"]
 summary: "A critique of how Star Citizen's information design, monetization, wipes, solo experience, and multicrew ship balance create a sense of emptiness inside an otherwise impressive universe."
 ---

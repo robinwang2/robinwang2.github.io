@@ -4,7 +4,7 @@ const path = require('path');
 const rootDir = path.resolve(__dirname, '..');
 const postsDir = path.join(rootDir, 'posts');
 const outputDir = path.join(rootDir, 'blog');
-const assetVersion = '20260625-blog-css';
+const assetVersion = '20260817-blog-categories';
 const languages = {
   zh: {
     label: '中文',
@@ -36,6 +36,41 @@ const languages = {
     homeLabel: 'Home',
     dateLocale: 'en-US'
   }
+};
+
+// Canonical blog categories. Posts reference these by `key` in frontmatter
+// (legacy label values listed in `aliases` still resolve, for older posts).
+const categories = [
+  { key: 'tech', zh: '技术', en: 'Tech', aliases: ['技术', 'Tech', 'Technology'] },
+  { key: 'mechanics', zh: '玩法拆解', en: 'Mechanics', aliases: ['玩法拆解', 'Mechanics', 'Game Mechanics'] },
+  { key: 'review', zh: '评价', en: 'Reviews', aliases: ['评价', '游戏批评', 'Reviews', 'Review', 'Game Criticism'] },
+  { key: 'devlog', zh: '开发日志', en: 'Devlog', aliases: ['开发日志', 'Devlog', 'Dev Log'] },
+  { key: 'essay', zh: '随笔', en: 'Notes', aliases: ['随笔', 'Notes', 'Essay'] }
+];
+
+const categoryAliasMap = categories.reduce((acc, category) => {
+  [category.key, category.zh, category.en, ...category.aliases].forEach((alias) => {
+    acc[String(alias).toLowerCase()] = category.key;
+  });
+  return acc;
+}, {});
+
+const resolveCategoryKey = (rawCategory, filePath) => {
+  const value = String(rawCategory || '').trim();
+  if (!value) return '';
+  const key = categoryAliasMap[value.toLowerCase()];
+  if (!key) {
+    const known = categories.map((category) => category.key).join(', ');
+    throw new Error(`${filePath}: unknown category "${value}". Use one of: ${known}`);
+  }
+  return key;
+};
+
+const categoryDefs = categories.map(({ key, zh, en }) => ({ key, zh, en }));
+
+const categoryLabelFor = (post) => {
+  const match = categoryDefs.find((category) => category.key === post.categoryKey);
+  return match ? match[post.lang] : '';
 };
 
 const ensureDir = (dir) => {
@@ -241,7 +276,7 @@ const readPosts = () => {
           sourcePath: filePath,
           title: parsed.frontmatter.title || slug,
           date: parsed.frontmatter.date || '',
-          category: parsed.frontmatter.category || '',
+          categoryKey: resolveCategoryKey(parsed.frontmatter.category, filePath),
           tags,
           summary: parsed.frontmatter.summary || '',
           markdown: parsed.markdown
@@ -291,7 +326,7 @@ const renderListPage = (posts) => {
     title: post.title,
     date: post.date,
     displayDate: formatDate(post.date, post.lang),
-    category: post.category,
+    categoryKey: post.categoryKey,
     tags: post.tags,
     summary: post.summary,
     href: post.lang === 'en' ? `blog/en/${post.slug}.html` : `blog/${post.slug}.html`
@@ -326,6 +361,7 @@ const renderListPage = (posts) => {
     (() => {
       const storageKey = 'site-language';
       const copy = ${jsonForScript(languages)};
+      const categoryDefs = ${jsonForScript(categoryDefs)};
       const posts = ${jsonForScript(publicPosts)};
       let currentLang = localStorage.getItem(storageKey) === 'en' ? 'en' : 'zh';
       let activeCategory = 'all';
@@ -341,21 +377,26 @@ const renderListPage = (posts) => {
 
       const getLangPosts = () => posts.filter((post) => post.lang === currentLang);
 
-      const renderButtons = (target, values, activeValue, onClick) => {
-        target.replaceChildren();
-        const allButton = document.createElement('button');
-        allButton.type = 'button';
-        allButton.textContent = copy[currentLang].allLabel;
-        allButton.className = activeValue === 'all' ? 'active' : '';
-        allButton.addEventListener('click', () => onClick('all'));
-        target.append(allButton);
+      const categoryLabel = (key) => {
+        const match = categoryDefs.find((category) => category.key === key);
+        return match ? match[currentLang] : '';
+      };
 
-        values.forEach((value) => {
+      const renderButtons = (target, options, activeValue, onClick) => {
+        target.replaceChildren();
+        options.forEach((option) => {
           const button = document.createElement('button');
           button.type = 'button';
-          button.textContent = value;
-          button.className = activeValue === value ? 'active' : '';
-          button.addEventListener('click', () => onClick(value));
+          button.textContent = option.label;
+          button.className = activeValue === option.value ? 'active' : '';
+          button.setAttribute('aria-pressed', activeValue === option.value ? 'true' : 'false');
+          if (typeof option.count === 'number') {
+            const count = document.createElement('span');
+            count.className = 'blog-filter-count';
+            count.textContent = option.count;
+            button.append(count);
+          }
+          button.addEventListener('click', () => onClick(option.value));
           target.append(button);
         });
       };
@@ -372,24 +413,40 @@ const renderListPage = (posts) => {
         document.querySelector('.project-back-link').textContent = langCopy.homeLabel;
 
         const langPosts = getLangPosts();
-        const categories = [...new Set(langPosts.map((post) => post.category).filter(Boolean))];
+        const categoryOptions = categoryDefs
+          .map((category) => ({
+            value: category.key,
+            label: category[currentLang],
+            count: langPosts.filter((post) => post.categoryKey === category.key).length
+          }))
+          .filter((option) => option.count > 0);
         const tags = [...new Set(langPosts.flatMap((post) => post.tags))];
 
-        if (!categories.includes(activeCategory)) activeCategory = 'all';
+        if (!categoryOptions.some((option) => option.value === activeCategory)) activeCategory = 'all';
         if (!tags.includes(activeTag)) activeTag = 'all';
 
-        renderButtons(document.getElementById('category-filters'), categories, activeCategory, (value) => {
-          activeCategory = value;
-          render();
-        });
+        renderButtons(
+          document.getElementById('category-filters'),
+          [{ value: 'all', label: langCopy.allLabel, count: langPosts.length }].concat(categoryOptions),
+          activeCategory,
+          (value) => {
+            activeCategory = value;
+            render();
+          }
+        );
 
-        renderButtons(document.getElementById('tag-filters'), tags, activeTag, (value) => {
-          activeTag = value;
-          render();
-        });
+        renderButtons(
+          document.getElementById('tag-filters'),
+          [{ value: 'all', label: langCopy.allLabel }].concat(tags.map((tag) => ({ value: tag, label: tag }))),
+          activeTag,
+          (value) => {
+            activeTag = value;
+            render();
+          }
+        );
 
         const visiblePosts = langPosts.filter((post) => {
-          const categoryMatches = activeCategory === 'all' || post.category === activeCategory;
+          const categoryMatches = activeCategory === 'all' || post.categoryKey === activeCategory;
           const tagMatches = activeTag === 'all' || post.tags.includes(activeTag);
           return categoryMatches && tagMatches;
         });
@@ -404,7 +461,7 @@ const renderListPage = (posts) => {
           const tagsHtml = post.tags.map((tag) => '<span class="blog-tag">' + escapeHtml(tag) + '</span>').join('');
           return '<article class="blog-list-item">' +
             '<div class="blog-card-meta"><time datetime="' + escapeHtml(post.date) + '">' + escapeHtml(post.displayDate) + '</time>' +
-            (post.category ? '<span>' + escapeHtml(post.category) + '</span>' : '') + '</div>' +
+            (post.categoryKey ? '<span>' + escapeHtml(categoryLabel(post.categoryKey)) + '</span>' : '') + '</div>' +
             '<h2><a href="' + escapeHtml(post.href) + '">' + escapeHtml(post.title) + '</a></h2>' +
             '<p>' + escapeHtml(post.summary) + '</p>' +
             '<div class="blog-tags">' + tagsHtml + '</div>' +
@@ -417,7 +474,6 @@ const renderListPage = (posts) => {
         event.preventDefault();
         currentLang = currentLang === 'zh' ? 'en' : 'zh';
         localStorage.setItem(storageKey, currentLang === 'en' ? 'en' : 'zh-Hans');
-        activeCategory = 'all';
         activeTag = 'all';
         render();
       });
@@ -463,7 +519,7 @@ const renderPostPage = (post, postsBySlug) => {
                 <h1>${escapeHtml(post.title)}</h1>
                 <div class="blog-card-meta">
                     <time datetime="${escapeHtml(post.date)}">${escapeHtml(formatDate(post.date, post.lang))}</time>
-                    ${post.category ? `<span>${escapeHtml(post.category)}</span>` : ''}
+                    ${categoryLabelFor(post) ? `<span>${escapeHtml(categoryLabelFor(post))}</span>` : ''}
                 </div>
                 <div class="blog-tags">${renderTagList(post)}</div>
                 ${post.summary ? `<p class="blog-post-summary">${escapeHtml(post.summary)}</p>` : ''}
