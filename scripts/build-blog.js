@@ -554,6 +554,28 @@ const writeOutputs = () => {
 
   fs.writeFileSync(path.join(rootDir, 'blog.html'), renderListPage(posts), 'utf8');
 
+  // Index consumed by admin.html, so the editor's category list and post list
+  // come from this script rather than being maintained a second time.
+  fs.writeFileSync(
+    path.join(rootDir, 'blog-data.json'),
+    JSON.stringify(
+      {
+        categories: categoryDefs,
+        posts: posts.map((post) => ({
+          lang: post.lang,
+          slug: post.slug,
+          title: post.title,
+          date: post.date,
+          categoryKey: post.categoryKey,
+          source: `posts/${post.lang}/${path.basename(post.sourcePath)}`
+        }))
+      },
+      null,
+      2
+    ),
+    'utf8'
+  );
+
   posts.forEach((post) => {
     const filePath = post.lang === 'en'
       ? path.join(outputDir, 'en', `${post.slug}.html`)

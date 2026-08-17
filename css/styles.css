@@ -1177,3 +1177,234 @@ body {
         display: none;
     }
 }
+
+/* ==================== Blog Admin (admin.html) ==================== */
+.admin-badge {
+    background: #A82727;
+    border-radius: 0.4rem;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.7rem;
+    text-transform: uppercase;
+}
+
+.admin-hidden {
+    display: none !important;
+}
+
+.admin-bar {
+    align-items: center;
+    border-bottom: 1px solid #c9c9c9;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.5rem 0;
+}
+
+.admin-mode {
+    display: flex;
+    gap: 0.65rem;
+}
+
+.admin-mode button {
+    background: transparent;
+    border: 1px solid #111;
+    border-radius: 0.4rem;
+    color: #111;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    min-height: 40px;
+    padding: 0.45rem 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.admin-mode button:hover,
+.admin-mode button.active {
+    background: #111;
+    color: #fff;
+}
+
+.admin-grid {
+    align-items: start;
+    display: grid;
+    gap: 1.75rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    padding-top: 1.75rem;
+}
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    min-width: 0;
+}
+
+.admin-row-2 {
+    display: grid;
+    gap: 0.9rem;
+    grid-template-columns: 1fr 1fr;
+}
+
+.admin-form label,
+.admin-panel label {
+    color: #111;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    font-weight: 700;
+    gap: 0.35rem;
+    min-width: 0;
+}
+
+.admin-form input,
+.admin-form select,
+.admin-form textarea,
+.admin-panel input,
+#post-picker {
+    background: #fff;
+    border: 1px solid #b0b0b0;
+    border-radius: 0.35rem;
+    color: #111;
+    font: inherit;
+    font-weight: 400;
+    min-height: 40px;
+    padding: 0.5rem 0.65rem;
+    width: 100%;
+}
+
+.admin-form textarea {
+    line-height: 1.6;
+    resize: vertical;
+}
+
+#f-body {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.92rem;
+}
+
+.admin-form input:focus,
+.admin-form select:focus,
+.admin-form textarea:focus,
+.admin-panel input:focus {
+    border-color: #A82727;
+    outline: 2px solid rgba(168, 39, 39, 0.25);
+    outline-offset: 1px;
+}
+
+.admin-check {
+    align-items: center;
+    flex-direction: row !important;
+    gap: 0.5rem !important;
+}
+
+.admin-check input {
+    min-height: 0;
+    width: auto;
+}
+
+.admin-tag-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.admin-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-width: 0;
+    position: sticky;
+    top: 1rem;
+}
+
+.admin-panel {
+    background: #f8f8f8;
+    border: 1px solid #d0d0d0;
+    border-left: 6px solid #A82727;
+    border-radius: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.1rem;
+}
+
+.admin-panel h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    color: #111;
+}
+
+.admin-preview {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.35rem;
+    max-height: 340px;
+    overflow: auto;
+    padding: 0.9rem 1rem;
+}
+
+.admin-preview > :first-child {
+    margin-top: 0;
+}
+
+.admin-note {
+    color: #555;
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.admin-actions .btn {
+    padding: 0.6rem 1.1rem;
+}
+
+.admin-panel .btn-secondary {
+    background: transparent;
+    border-color: #111;
+    color: #111;
+}
+
+.admin-panel .btn-secondary:hover {
+    background: #111;
+    color: #fff;
+}
+
+.admin-status {
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.admin-status.is-ok {
+    color: #1c6b34;
+}
+
+.admin-status.is-err {
+    color: #A82727;
+}
+
+@media (max-width: 900px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-side {
+        position: static;
+    }
+}
+
+.admin-note.is-warning {
+    color: #A82727;
+    font-weight: 700;
+}

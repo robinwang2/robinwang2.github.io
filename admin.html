@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>博客编辑器 | Sanxing Wang</title>
+    <link rel="stylesheet" href="css/styles.css?v=20260817-ui-pass">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="project-page-body blog-page-body">
+    <header class="project-page-header blog-site-header">
+        <nav class="project-nav">
+            <a class="project-back-link" href="blog.html">返回博客</a>
+            <span class="admin-badge">编辑器</span>
+        </nav>
+    </header>
+
+    <main class="blog-page admin-page">
+        <section class="blog-hero">
+            <p class="blog-kicker">Sanxing Wang</p>
+            <h1>博客编辑器</h1>
+            <p>写文章、改文章。没有 Token 也能用 —— 下载 <code>.md</code> 自己提交即可。</p>
+        </section>
+
+        <section class="admin-bar">
+            <div class="admin-mode">
+                <button type="button" id="mode-new" class="active">新建文章</button>
+                <button type="button" id="mode-edit">编辑已有</button>
+            </div>
+            <select id="post-picker" class="admin-hidden" aria-label="选择要编辑的文章"></select>
+        </section>
+
+        <section class="admin-grid">
+            <form class="admin-form" id="post-form" autocomplete="off">
+                <div class="admin-row admin-row-2">
+                    <label>语言
+                        <select id="f-lang">
+                            <option value="zh">中文</option>
+                            <option value="en">English</option>
+                        </select>
+                    </label>
+                    <label>日期
+                        <input type="date" id="f-date">
+                    </label>
+                </div>
+
+                <label>标题
+                    <input type="text" id="f-title" placeholder="文章标题">
+                </label>
+
+                <label>Slug（文件名，留空按标题和日期自动生成）
+                    <input type="text" id="f-slug" placeholder="2026-08-17-my-post">
+                </label>
+
+                <label>分类
+                    <select id="f-category"></select>
+                </label>
+
+                <label>标签（逗号分隔）
+                    <input type="text" id="f-tags" placeholder="游戏设计, Unity, AI">
+                </label>
+                <div class="admin-tag-preview" id="tag-preview"></div>
+
+                <label>摘要（列表页显示）
+                    <textarea id="f-summary" rows="2" placeholder="一到两句话概括这篇文章。"></textarea>
+                </label>
+
+                <label>正文（Markdown）
+                    <textarea id="f-body" rows="18" placeholder="正文……支持 # 标题、- 列表、&gt; 引用、**粗体**、`代码`、```代码块```"></textarea>
+                </label>
+
+                <label class="admin-check">
+                    <input type="checkbox" id="f-draft">
+                    草稿（勾选后不会出现在博客里）
+                </label>
+            </form>
+
+            <aside class="admin-side">
+                <div class="admin-panel">
+                    <h2>预览</h2>
+                    <div class="admin-preview blog-post-content" id="preview"></div>
+                </div>
+
+                <div class="admin-panel">
+                    <h2>生成的文件</h2>
+                    <p class="admin-note" id="target-path">posts/zh/…</p>
+                    <p class="admin-status is-err" id="clash-warning"></p>
+                    <div class="admin-actions">
+                        <button type="button" id="btn-copy" class="btn btn-primary">复制 Markdown</button>
+                        <button type="button" id="btn-download" class="btn btn-secondary">下载 .md</button>
+                    </div>
+                </div>
+
+                <div class="admin-panel">
+                    <h2>直接提交到 GitHub</h2>
+                    <p class="admin-note">
+                        Token 只保存在这个浏览器标签页里（<code>sessionStorage</code>），关掉就没了，不会写进仓库。
+                        建议用 fine-grained token，仓库只勾
+                        <code>robinwang2.github.io</code>，权限只给 <strong>Contents: Read and write</strong>。
+                    </p>
+                    <label>GitHub Token
+                        <input type="password" id="f-token" placeholder="github_pat_…">
+                    </label>
+                    <div class="admin-actions">
+                        <button type="button" id="btn-commit" class="btn btn-primary">提交并发布</button>
+                        <button type="button" id="btn-forget" class="btn btn-secondary">清除 Token</button>
+                    </div>
+                    <p class="admin-status" id="status"></p>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <script>
+    (() => {
+      const REPO_OWNER = 'robinwang2';
+      const REPO_NAME = 'robinwang2.github.io';
+      const BRANCH = 'main';
+      const TOKEN_KEY = 'blog-admin-token';
+
+      const $ = (id) => document.getElementById(id);
+      const el = {
+        modeNew: $('mode-new'), modeEdit: $('mode-edit'), picker: $('post-picker'),
+        lang: $('f-lang'), date: $('f-date'), title: $('f-title'), slug: $('f-slug'),
+        category: $('f-category'), tags: $('f-tags'), summary: $('f-summary'),
+        body: $('f-body'), draft: $('f-draft'), token: $('f-token'),
+        preview: $('preview'), tagPreview: $('tag-preview'), targetPath: $('target-path'),
+        status: $('status'), clash: $('clash-warning')
+      };
+
+      let data = { categories: [], posts: [] };
+      let mode = 'new';
+      // sha of the file being edited; required by the GitHub API to update it
+      let editingSha = null;
+
+      const setStatus = (message, kind) => {
+        el.status.textContent = message;
+        el.status.className = 'admin-status' + (kind ? ' is-' + kind : '');
+      };
+
+      const escapeHtml = (value) => String(value == null ? '' : value).replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[c]);
+
+      const parseTags = () => el.tags.value.split(/[,，]/).map((t) => t.trim()).filter(Boolean);
+
+      // ---------- markdown preview (mirrors scripts/build-blog.js) ----------
+      const inlineMd = (source) => {
+        let html = escapeHtml(source);
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+        html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+        html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+        return html;
+      };
+
+      const renderMd = (markdown) => {
+        const lines = String(markdown).split(/\r?\n/);
+        const blocks = [];
+        let i = 0;
+        while (i < lines.length) {
+          const trimmed = lines[i].trim();
+          if (!trimmed) { i++; continue; }
+
+          if (/^```/.test(trimmed)) {
+            const code = [];
+            i++;
+            while (i < lines.length && !/^```/.test(lines[i].trim())) { code.push(lines[i]); i++; }
+            i++;
+            blocks.push('<pre><code>' + escapeHtml(code.join('\n')) + '</code></pre>');
+            continue;
+          }
+          const heading = trimmed.match(/^(#{1,6})\s+(.*)$/);
+          if (heading) {
+            const level = Math.min(heading[1].length + 1, 6);
+            blocks.push('<h' + level + '>' + inlineMd(heading[2]) + '</h' + level + '>');
+            i++;
+            continue;
+          }
+          if (/^>\s?/.test(trimmed)) {
+            const quote = [];
+            while (i < lines.length && /^>\s?/.test(lines[i].trim())) {
+              quote.push(lines[i].trim().replace(/^>\s?/, '')); i++;
+            }
+            blocks.push('<blockquote>' + quote.map((q) => '<p>' + inlineMd(q) + '</p>').join('') + '</blockquote>');
+            continue;
+          }
+          if (/^[-*]\s+/.test(trimmed)) {
+            const items = [];
+            while (i < lines.length && /^[-*]\s+/.test(lines[i].trim())) {
+              items.push(lines[i].trim().replace(/^[-*]\s+/, '')); i++;
+            }
+            blocks.push('<ul>' + items.map((it) => '<li>' + inlineMd(it) + '</li>').join('') + '</ul>');
+            continue;
+          }
+          if (/^\d+\.\s+/.test(trimmed)) {
+            const items = [];
+            while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+              items.push(lines[i].trim().replace(/^\d+\.\s+/, '')); i++;
+            }
+            blocks.push('<ol>' + items.map((it) => '<li>' + inlineMd(it) + '</li>').join('') + '</ol>');
+            continue;
+          }
+          const para = [];
+          while (i < lines.length && lines[i].trim()
+            && !/^#{1,6}\s+/.test(lines[i]) && !/^[-*]\s+/.test(lines[i])
+            && !/^\d+\.\s+/.test(lines[i]) && !/^>\s?/.test(lines[i]) && !/^```/.test(lines[i])) {
+            para.push(lines[i].trim()); i++;
+          }
+          blocks.push('<p>' + inlineMd(para.join(' ')) + '</p>');
+        }
+        return blocks.join('\n');
+      };
+
+      // ---------- frontmatter ----------
+      // Slugs become file names and URLs, so keep them ASCII. A Chinese title
+      // leaves nothing usable here — that is what the manual slug field is for.
+      const slugify = () => {
+        const manual = el.slug.value.trim();
+        if (manual) return manual;
+        const date = el.date.value || new Date().toISOString().slice(0, 10);
+        const title = el.title.value.trim().toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        return date + (title ? '-' + title : '-post');
+      };
+
+      const quote = (value) => '"' + String(value).replace(/"/g, '\\"') + '"';
+
+      const buildMarkdown = () => {
+        const lines = ['---'];
+        lines.push('title: ' + quote(el.title.value.trim()));
+        lines.push('date: ' + quote(el.date.value));
+        lines.push('category: ' + quote(el.category.value));
+        lines.push('tags: [' + parseTags().map(quote).join(', ') + ']');
+        lines.push('summary: ' + quote(el.summary.value.trim()));
+        if (el.draft.checked) lines.push('draft: true');
+        lines.push('---');
+        lines.push('');
+        lines.push(el.body.value.trim());
+        lines.push('');
+        return lines.join('\n');
+      };
+
+      const parseFrontmatter = (raw) => {
+        const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+        if (!match) return { front: {}, body: raw };
+        const front = {};
+        match[1].split(/\r?\n/).forEach((line) => {
+          const at = line.indexOf(':');
+          if (at === -1) return;
+          const key = line.slice(0, at).trim();
+          let value = line.slice(at + 1).trim();
+          if (/^\[.*\]$/.test(value)) {
+            front[key] = value.slice(1, -1).split(',')
+              .map((v) => v.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
+          } else {
+            front[key] = value.replace(/^["']|["']$/g, '');
+          }
+        });
+        return { front, body: match[2] };
+      };
+
+      const targetPath = () => 'posts/' + el.lang.value + '/' + slugify() + '.md';
+
+      // ---------- live updates ----------
+      const refresh = () => {
+        el.preview.innerHTML = renderMd(el.body.value) || '<p class="admin-note">正文预览会出现在这里。</p>';
+        el.tagPreview.innerHTML = parseTags()
+          .map((t) => '<span class="blog-tag">' + escapeHtml(t) + '</span>').join('');
+
+        const path = targetPath();
+        const clash = mode === 'new' && data.posts.some((p) => p.source === path);
+        el.targetPath.textContent = path;
+        el.targetPath.classList.toggle('is-warning', clash);
+        el.clash.textContent = clash
+          ? '⚠ 已经有同名文章了，直接提交会覆盖它。改一下 Slug。'
+          : '';
+      };
+
+      const fillCategories = () => {
+        el.category.replaceChildren();
+        data.categories.forEach((c) => {
+          const option = document.createElement('option');
+          option.value = c.key;
+          option.textContent = c.zh + ' / ' + c.en + '  (' + c.key + ')';
+          el.category.append(option);
+        });
+      };
+
+      const fillPicker = () => {
+        el.picker.replaceChildren();
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = '选择一篇文章…';
+        el.picker.append(placeholder);
+        data.posts.forEach((p) => {
+          const option = document.createElement('option');
+          option.value = p.source;
+          option.textContent = '[' + p.lang + '] ' + p.title;
+          el.picker.append(option);
+        });
+      };
+
+      const resetForm = () => {
+        el.title.value = '';
+        el.slug.value = '';
+        el.tags.value = '';
+        el.summary.value = '';
+        el.body.value = '';
+        el.draft.checked = false;
+        el.date.value = new Date().toISOString().slice(0, 10);
+        editingSha = null;
+        refresh();
+      };
+
+      const loadPost = async (source) => {
+        if (!source) return;
+        setStatus('读取中…');
+        try {
+          // posts/*.md ships with the site, so editing needs no token to read
+          const res = await fetch(source + '?t=' + Date.now());
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const raw = await res.text();
+          const { front, body } = parseFrontmatter(raw);
+          const parts = source.split('/');
+          el.lang.value = parts[1];
+          el.slug.value = parts[2].replace(/\.md$/, '');
+          el.title.value = front.title || '';
+          el.date.value = front.date || '';
+          el.category.value = front.category || data.categories[0].key;
+          el.tags.value = Array.isArray(front.tags) ? front.tags.join(', ') : (front.tags || '');
+          el.summary.value = front.summary || '';
+          el.body.value = body.trim();
+          el.draft.checked = String(front.draft) === 'true';
+          editingSha = null;
+          refresh();
+          setStatus('已载入 ' + source, 'ok');
+        } catch (err) {
+          setStatus('读取失败：' + err.message, 'err');
+        }
+      };
+
+      // ---------- github commit ----------
+      const utf8ToBase64 = (str) => {
+        const bytes = new TextEncoder().encode(str);
+        let binary = '';
+        bytes.forEach((b) => { binary += String.fromCharCode(b); });
+        return btoa(binary);
+      };
+
+      const api = async (path, options) => {
+        const res = await fetch('https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + path, {
+          ...options,
+          headers: {
+            Accept: 'application/vnd.github+json',
+            Authorization: 'Bearer ' + el.token.value.trim(),
+            ...(options && options.headers)
+          }
+        });
+        if (!res.ok) {
+          let detail = 'HTTP ' + res.status;
+          try { detail = (await res.json()).message || detail; } catch (e) { /* keep status */ }
+          throw new Error(detail);
+        }
+        return res.json();
+      };
+
+      const commit = async () => {
+        if (!el.token.value.trim()) { setStatus('先填 Token，或者用「下载 .md」自己提交。', 'err'); return; }
+        if (!el.title.value.trim()) { setStatus('标题不能为空。', 'err'); return; }
+
+        const path = targetPath();
+        setStatus('提交中…');
+        try {
+          // an update needs the current blob sha; a brand new file has none
+          let sha = editingSha;
+          if (!sha) {
+            try {
+              const existing = await api('/contents/' + path + '?ref=' + BRANCH);
+              sha = existing.sha;
+            } catch (e) { sha = null; }
+          }
+
+          const result = await api('/contents/' + path, {
+            method: 'PUT',
+            body: JSON.stringify({
+              message: (sha ? 'Update post: ' : 'Add post: ') + el.title.value.trim(),
+              content: utf8ToBase64(buildMarkdown()),
+              branch: BRANCH,
+              ...(sha ? { sha } : {})
+            })
+          });
+
+          editingSha = result.content && result.content.sha;
+          setStatus((sha ? '已更新 ' : '已新建 ') + path + '。GitHub Actions 正在重新构建，1–2 分钟后上线。', 'ok');
+        } catch (err) {
+          setStatus('提交失败：' + err.message, 'err');
+        }
+      };
+
+      // ---------- wiring ----------
+      el.modeNew.addEventListener('click', () => {
+        mode = 'new';
+        el.modeNew.classList.add('active');
+        el.modeEdit.classList.remove('active');
+        el.picker.classList.add('admin-hidden');
+        resetForm();
+        setStatus('');
+      });
+
+      el.modeEdit.addEventListener('click', () => {
+        mode = 'edit';
+        el.modeEdit.classList.add('active');
+        el.modeNew.classList.remove('active');
+        el.picker.classList.remove('admin-hidden');
+        setStatus('从上面的下拉框选一篇文章。');
+      });
+
+      el.picker.addEventListener('change', (e) => loadPost(e.target.value));
+
+      ['input', 'change'].forEach((evt) => {
+        el.body.addEventListener(evt, refresh);
+        el.tags.addEventListener(evt, refresh);
+        el.title.addEventListener(evt, refresh);
+        el.slug.addEventListener(evt, refresh);
+        el.lang.addEventListener(evt, refresh);
+        el.date.addEventListener(evt, refresh);
+      });
+
+      $('btn-copy').addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(buildMarkdown());
+          setStatus('Markdown 已复制到剪贴板。', 'ok');
+        } catch (e) {
+          setStatus('复制失败，请用「下载 .md」。', 'err');
+        }
+      });
+
+      $('btn-download').addEventListener('click', () => {
+        const blob = new Blob([buildMarkdown()], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = slugify() + '.md';
+        document.body.append(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        setStatus('已下载。放到 ' + targetPath() + ' 然后 git push。', 'ok');
+      });
+
+      $('btn-commit').addEventListener('click', commit);
+
+      el.token.addEventListener('change', () => {
+        sessionStorage.setItem(TOKEN_KEY, el.token.value.trim());
+      });
+
+      $('btn-forget').addEventListener('click', () => {
+        sessionStorage.removeItem(TOKEN_KEY);
+        el.token.value = '';
+        setStatus('Token 已清除。', 'ok');
+      });
+
+      (async () => {
+        try {
+          const res = await fetch('blog-data.json?t=' + Date.now());
+          data = await res.json();
+        } catch (e) {
+          setStatus('blog-data.json 读取失败，分类列表可能不全。先跑一次 node scripts/build-blog.js。', 'err');
+        }
+        fillCategories();
+        fillPicker();
+        el.token.value = sessionStorage.getItem(TOKEN_KEY) || '';
+        resetForm();
+      })();
+    })();
+    </script>
+</body>
+</html>

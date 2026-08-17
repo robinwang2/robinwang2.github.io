@@ -1,0 +1,63 @@
+{
+  "categories": [
+    {
+      "key": "tech",
+      "zh": "技术",
+      "en": "Tech"
+    },
+    {
+      "key": "mechanics",
+      "zh": "玩法拆解",
+      "en": "Mechanics"
+    },
+    {
+      "key": "review",
+      "zh": "评价",
+      "en": "Reviews"
+    },
+    {
+      "key": "devlog",
+      "zh": "开发日志",
+      "en": "Devlog"
+    },
+    {
+      "key": "essay",
+      "zh": "随笔",
+      "en": "Notes"
+    }
+  ],
+  "posts": [
+    {
+      "lang": "zh",
+      "slug": "2026-06-25-star-citizen-emptiness",
+      "title": "游戏批评：《星际公民》的空虚感",
+      "date": "2026-06-25",
+      "categoryKey": "review",
+      "source": "posts/zh/2026-06-25-star-citizen-emptiness.md"
+    },
+    {
+      "lang": "zh",
+      "slug": "2026-06-25-welcome",
+      "title": "欢迎来到我的博客",
+      "date": "2026-06-25",
+      "categoryKey": "essay",
+      "source": "posts/zh/2026-06-25-welcome.md"
+    },
+    {
+      "lang": "en",
+      "slug": "2026-06-25-star-citizen-emptiness",
+      "title": "Game Criticism: The Emptiness of Star Citizen",
+      "date": "2026-06-25",
+      "categoryKey": "review",
+      "source": "posts/en/2026-06-25-star-citizen-emptiness.md"
+    },
+    {
+      "lang": "en",
+      "slug": "2026-06-25-welcome",
+      "title": "Welcome to My Blog",
+      "date": "2026-06-25",
+      "categoryKey": "essay",
+      "source": "posts/en/2026-06-25-welcome.md"
+    }
+  ]
+}
