@@ -4,7 +4,7 @@ const path = require('path');
 const rootDir = path.resolve(__dirname, '..');
 const postsDir = path.join(rootDir, 'posts');
 const outputDir = path.join(rootDir, 'blog');
-const assetVersion = '20260817-admin-entry';
+const assetVersion = '20260817-delete-post';
 const languages = {
   zh: {
     label: '中文',
@@ -585,14 +585,34 @@ const writeOutputs = () => {
     'utf8'
   );
 
+  const written = new Set();
   posts.forEach((post) => {
     const filePath = post.lang === 'en'
       ? path.join(outputDir, 'en', `${post.slug}.html`)
       : path.join(outputDir, `${post.slug}.html`);
     fs.writeFileSync(filePath, renderPostPage(post, postsBySlug), 'utf8');
+    written.add(path.resolve(filePath));
+  });
+
+  // Delete generated pages whose Markdown source is gone, otherwise a removed
+  // post keeps its old URL alive even though it left the blog index.
+  const pruned = [];
+  [outputDir, path.join(outputDir, 'en')].forEach((dir) => {
+    if (!fs.existsSync(dir)) return;
+    fs.readdirSync(dir)
+      .filter((name) => name.endsWith('.html'))
+      .forEach((name) => {
+        const filePath = path.resolve(dir, name);
+        if (written.has(filePath)) return;
+        fs.unlinkSync(filePath);
+        pruned.push(path.relative(rootDir, filePath).replace(/\\/g, '/'));
+      });
   });
 
   console.log(`Built ${posts.length} blog post page(s).`);
+  if (pruned.length) {
+    console.log(`Removed ${pruned.length} orphaned page(s): ${pruned.join(', ')}`);
+  }
 };
 
 writeOutputs();

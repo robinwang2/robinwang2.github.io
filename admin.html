@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex,nofollow">
     <title>博客编辑器 | Sanxing Wang</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260817-admin-entry">
+    <link rel="stylesheet" href="css/styles.css?v=20260817-delete-post">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -110,9 +110,33 @@
                     </div>
                     <p class="admin-status" id="status"></p>
                 </div>
+
+                <div class="admin-panel admin-danger admin-hidden" id="delete-panel">
+                    <h2>删除这篇文章</h2>
+                    <p class="admin-note">
+                        会从仓库里删掉 <span id="delete-target"></span>，
+                        生成的页面会在下次构建时一并清掉。需要 Token。
+                    </p>
+                    <div class="admin-actions">
+                        <button type="button" id="btn-delete" class="btn btn-danger">删除文章</button>
+                    </div>
+                </div>
             </aside>
         </section>
     </main>
+
+    <dialog class="admin-dialog" id="confirm-dialog">
+        <h2>确认删除？</h2>
+        <p>
+            即将删除 <strong id="confirm-title"></strong><br>
+            <code id="confirm-path"></code>
+        </p>
+        <p class="admin-note">这一步不可撤销。文章仍可从 GitHub 的提交历史里找回。</p>
+        <div class="admin-actions">
+            <button type="button" id="confirm-yes" class="btn btn-danger">是，删除</button>
+            <button type="button" id="confirm-no" class="btn btn-secondary">否，取消</button>
+        </div>
+    </dialog>
 
     <script>
     (() => {
@@ -128,13 +152,18 @@
         category: $('f-category'), tags: $('f-tags'), summary: $('f-summary'),
         body: $('f-body'), draft: $('f-draft'), token: $('f-token'),
         preview: $('preview'), tagPreview: $('tag-preview'), targetPath: $('target-path'),
-        status: $('status'), clash: $('clash-warning')
+        status: $('status'), clash: $('clash-warning'),
+        deletePanel: $('delete-panel'), deleteTarget: $('delete-target'),
+        dialog: $('confirm-dialog'), confirmTitle: $('confirm-title'), confirmPath: $('confirm-path')
       };
 
       let data = { categories: [], posts: [] };
       let mode = 'new';
       // sha of the file being edited; required by the GitHub API to update it
       let editingSha = null;
+      // path of the post actually loaded — deletion must target this, not
+      // targetPath(), which follows whatever the lang/slug fields now say
+      let editingPath = null;
 
       const setStatus = (message, kind) => {
         el.status.textContent = message;
@@ -315,6 +344,8 @@
         el.draft.checked = false;
         el.date.value = new Date().toISOString().slice(0, 10);
         editingSha = null;
+        editingPath = null;
+        el.deletePanel.classList.add('admin-hidden');
         refresh();
       };
 
@@ -338,6 +369,9 @@
           el.body.value = body.trim();
           el.draft.checked = String(front.draft) === 'true';
           editingSha = null;
+          editingPath = source;
+          el.deleteTarget.textContent = source;
+          el.deletePanel.classList.remove('admin-hidden');
           refresh();
           setStatus('已载入 ' + source, 'ok');
         } catch (err) {
@@ -403,6 +437,30 @@
         }
       };
 
+      const removePost = async () => {
+        const path = editingPath;
+        setStatus('删除中…');
+        try {
+          const info = await api('/contents/' + path + '?ref=' + BRANCH);
+          await api('/contents/' + path, {
+            method: 'DELETE',
+            body: JSON.stringify({
+              message: 'Delete post: ' + (el.title.value.trim() || path),
+              sha: info.sha,
+              branch: BRANCH
+            })
+          });
+
+          data.posts = data.posts.filter((p) => p.source !== path);
+          fillPicker();
+          resetForm();
+          el.modeNew.click();
+          setStatus('已删除 ' + path + '。GitHub Actions 正在重新构建，1–2 分钟后生效。', 'ok');
+        } catch (err) {
+          setStatus('删除失败：' + err.message, 'err');
+        }
+      };
+
       // ---------- wiring ----------
       el.modeNew.addEventListener('click', () => {
         mode = 'new';
@@ -455,6 +513,23 @@
       });
 
       $('btn-commit').addEventListener('click', commit);
+
+      $('btn-delete').addEventListener('click', () => {
+        if (!editingPath) { setStatus('先选一篇文章。', 'err'); return; }
+        if (!el.token.value.trim()) { setStatus('删除需要 Token，请先在上面填入。', 'err'); return; }
+        el.confirmTitle.textContent = el.title.value.trim() || editingPath;
+        el.confirmPath.textContent = editingPath;
+        el.dialog.showModal();
+        // focus cancel, not delete — a reflexive Enter should not destroy a post
+        $('confirm-no').focus();
+      });
+
+      $('confirm-no').addEventListener('click', () => el.dialog.close());
+
+      $('confirm-yes').addEventListener('click', () => {
+        el.dialog.close();
+        removePost();
+      });
 
       el.token.addEventListener('change', () => {
         sessionStorage.setItem(TOKEN_KEY, el.token.value.trim());
