@@ -4,7 +4,7 @@ const path = require('path');
 const rootDir = path.resolve(__dirname, '..');
 const postsDir = path.join(rootDir, 'posts');
 const outputDir = path.join(rootDir, 'blog');
-const assetVersion = '20260817-blog-categories';
+const assetVersion = '20260817-admin-entry';
 const languages = {
   zh: {
     label: '中文',
@@ -19,6 +19,7 @@ const languages = {
     backToBlog: '返回博客',
     switchLabel: 'EN',
     homeLabel: '主页',
+    newPost: '写新文章',
     dateLocale: 'zh-CN'
   },
   en: {
@@ -34,6 +35,7 @@ const languages = {
     backToBlog: 'Back to Blog',
     switchLabel: '中文',
     homeLabel: 'Home',
+    newPost: 'New post',
     dateLocale: 'en-US'
   }
 };
@@ -336,7 +338,10 @@ const renderListPage = (posts) => {
   const content = `    <header class="project-page-header blog-site-header">
         <nav class="project-nav">
             <a class="project-back-link" href="index.html">${languages[initialLang].homeLabel}</a>
-            <a href="#" id="language-toggle" class="project-language-toggle">${languages[initialLang].switchLabel}</a>
+            <div class="project-nav-actions">
+                <a href="#" id="language-toggle" class="project-language-toggle">${languages[initialLang].switchLabel}</a>
+                <a class="blog-new-link" href="admin.html" id="new-post-link" title="${languages[initialLang].newPost}" aria-label="${languages[initialLang].newPost}">+</a>
+            </div>
         </nav>
     </header>
     <main class="blog-page">
@@ -411,6 +416,10 @@ const renderListPage = (posts) => {
         document.getElementById('tag-label').textContent = langCopy.tagLabel;
         document.getElementById('language-toggle').textContent = langCopy.switchLabel;
         document.querySelector('.project-back-link').textContent = langCopy.homeLabel;
+
+        const newLink = document.getElementById('new-post-link');
+        newLink.title = langCopy.newPost;
+        newLink.setAttribute('aria-label', langCopy.newPost);
 
         const langPosts = getLangPosts();
         const categoryOptions = categoryDefs

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="这里会放我关于游戏、技术、创作和现实议题的文章。">
     <title>博客 | Sanxing Wang</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260817-blog-categories">
+    <link rel="stylesheet" href="css/styles.css?v=20260817-admin-entry">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -14,7 +14,10 @@
     <header class="project-page-header blog-site-header">
         <nav class="project-nav">
             <a class="project-back-link" href="index.html">主页</a>
-            <a href="#" id="language-toggle" class="project-language-toggle">EN</a>
+            <div class="project-nav-actions">
+                <a href="#" id="language-toggle" class="project-language-toggle">EN</a>
+                <a class="blog-new-link" href="admin.html" id="new-post-link" title="写新文章" aria-label="写新文章">+</a>
+            </div>
         </nav>
     </header>
     <main class="blog-page">
@@ -38,7 +41,7 @@
     <script>
     (() => {
       const storageKey = 'site-language';
-      const copy = {"zh":{"label":"中文","htmlLang":"zh-Hans","listTitle":"博客","listIntro":"这里会放我关于游戏、技术、创作和现实议题的文章。","allLabel":"全部","categoryLabel":"分类","tagLabel":"标签","emptyLabel":"还没有发布文章。","readMore":"阅读全文","backToBlog":"返回博客","switchLabel":"EN","homeLabel":"主页","dateLocale":"zh-CN"},"en":{"label":"English","htmlLang":"en","listTitle":"Blog","listIntro":"Notes on games, technology, creative work, and the world around them.","allLabel":"All","categoryLabel":"Category","tagLabel":"Tag","emptyLabel":"No posts published yet.","readMore":"Read article","backToBlog":"Back to Blog","switchLabel":"中文","homeLabel":"Home","dateLocale":"en-US"}};
+      const copy = {"zh":{"label":"中文","htmlLang":"zh-Hans","listTitle":"博客","listIntro":"这里会放我关于游戏、技术、创作和现实议题的文章。","allLabel":"全部","categoryLabel":"分类","tagLabel":"标签","emptyLabel":"还没有发布文章。","readMore":"阅读全文","backToBlog":"返回博客","switchLabel":"EN","homeLabel":"主页","newPost":"写新文章","dateLocale":"zh-CN"},"en":{"label":"English","htmlLang":"en","listTitle":"Blog","listIntro":"Notes on games, technology, creative work, and the world around them.","allLabel":"All","categoryLabel":"Category","tagLabel":"Tag","emptyLabel":"No posts published yet.","readMore":"Read article","backToBlog":"Back to Blog","switchLabel":"中文","homeLabel":"Home","newPost":"New post","dateLocale":"en-US"}};
       const categoryDefs = [{"key":"tech","zh":"技术","en":"Tech"},{"key":"mechanics","zh":"玩法拆解","en":"Mechanics"},{"key":"review","zh":"评价","en":"Reviews"},{"key":"devlog","zh":"开发日志","en":"Devlog"},{"key":"essay","zh":"随笔","en":"Notes"}];
       const posts = [{"lang":"zh","slug":"2026-06-25-star-citizen-emptiness","title":"游戏批评：《星际公民》的空虚感","date":"2026-06-25","displayDate":"2026年6月25日","categoryKey":"review","tags":["星际公民","游戏设计","MMO","太空游戏","行业观察"],"summary":"从信息设计、付费模式、删档风险、独狼体验和多人船人效问题切入，讨论《星际公民》为什么会在宏伟宇宙中制造一种空虚感。","href":"blog/2026-06-25-star-citizen-emptiness.html"},{"lang":"zh","slug":"2026-06-25-welcome","title":"欢迎来到我的博客","date":"2026-06-25","displayDate":"2026年6月25日","categoryKey":"essay","tags":["创作","游戏设计","AI"],"summary":"这是博客系统的第一篇文章，用来确认 Markdown、分类、标签和中英双语页面都能正常生成。","href":"blog/2026-06-25-welcome.html"},{"lang":"en","slug":"2026-06-25-star-citizen-emptiness","title":"Game Criticism: The Emptiness of Star Citizen","date":"2026-06-25","displayDate":"June 25, 2026","categoryKey":"review","tags":["Star Citizen","Game Design","MMO","Space Games","Industry Commentary"],"summary":"A critique of how Star Citizen's information design, monetization, wipes, solo experience, and multicrew ship balance create a sense of emptiness inside an otherwise impressive universe.","href":"blog/en/2026-06-25-star-citizen-emptiness.html"},{"lang":"en","slug":"2026-06-25-welcome","title":"Welcome to My Blog","date":"2026-06-25","displayDate":"June 25, 2026","categoryKey":"essay","tags":["Creative Work","Game Design","AI"],"summary":"This first post checks that Markdown, categories, tags, and bilingual pages are all generated correctly.","href":"blog/en/2026-06-25-welcome.html"}];
       let currentLang = localStorage.getItem(storageKey) === 'en' ? 'en' : 'zh';
@@ -89,6 +92,10 @@
         document.getElementById('tag-label').textContent = langCopy.tagLabel;
         document.getElementById('language-toggle').textContent = langCopy.switchLabel;
         document.querySelector('.project-back-link').textContent = langCopy.homeLabel;
+
+        const newLink = document.getElementById('new-post-link');
+        newLink.title = langCopy.newPost;
+        newLink.setAttribute('aria-label', langCopy.newPost);
 
         const langPosts = getLangPosts();
         const categoryOptions = categoryDefs
